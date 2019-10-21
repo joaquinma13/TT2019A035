@@ -4,12 +4,16 @@
     android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnGetContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="soy uno"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@color/colorAccent"
+        android:rotation="45"
+        android:src="@drawable/ic_close_white_24dp" />
 
 </RelativeLayout>

@@ -21,6 +21,8 @@
     <uses-permission android:name="android.cpermission.READ_CALENDAR" /> <!-- Permiso para dictado de voz -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
