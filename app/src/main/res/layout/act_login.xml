@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:isScrollContainer="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="false"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:id="@+id/divadeTop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".7"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/textViewTest"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@string/contentDescription"
+                android:padding="17dp"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_tethering"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:id="@+id/textViewCerrar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/contentDescription"
+                android:padding="17dp"
+                android:scaleX="-1"
+                android:tint="@color/white"
+                app:srcCompat="@drawable/ic_exit"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:background="#f2f3f4" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/icon_app"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/image_login"
+        android:contentDescription="@string/app_name"
+        android:padding="10dp"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        android:id="@+id/RelativeGeneral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageViewLogoMaster"
+        android:layout_below="@+id/icon_app">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/CardEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="9dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ScrollView
+                    android:id="@+id/scrollViewContentCampos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="visible"
+                    tools:ignore="UselessParent">
+
+                    <RelativeLayout
+                        android:id="@+id/RelativeContentCampos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewBienvenido"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/bienvenido"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="25sp" />
+
+                        <LinearLayout
+                            android:id="@+id/linearUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textViewBienvenido"
+                            android:layout_alignTop="@+id/etUsuario"
+                            android:layout_alignBottom="@+id/etUsuario"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="20dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:contentDescription="@string/contentDescription"
+                                android:tint="@color/colorPrimary"
+                                app:srcCompat="@drawable/ic_person" />
+                        </LinearLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/etUsuario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textViewBienvenido"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_toEndOf="@+id/linearUser"
+                            android:focusable="false"
+                            app:errorTextAppearance="@style/error">
+
+                            <EditText
+                                android:id="@+id/editTextUsuario"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/prompt_user"
+                                android:inputType="text"
+                                android:maxLength="100"
+                                android:textSize="20sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linearPass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/etPassword"
+                            android:layout_alignBottom="@+id/etPassword"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="20dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:contentDescription="@string/contentDescription"
+                                android:tint="@color/colorPrimary"
+                                app:srcCompat="@drawable/ic_lock" />
+                        </LinearLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/etUsuario"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_toEndOf="@+id/linearPass"
+                            app:errorTextAppearance="@style/error"
+                            android:focusable="false"
+                            app:passwordToggleEnabled="true">
+
+                            <EditText
+                                android:id="@+id/editTextPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/prompt_password"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="textPassword"
+                                android:maxLength="15"
+                                android:textSize="20sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/buttonEntrar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/etPassword"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="22dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="22dp"
+                            android:background="@drawable/back_enter"
+                            android:padding="10dp"
+                            android:text="@string/sign_in"
+                            android:textColor="#ffffff"
+                            android:textSize="20sp" />
+
+
+                        <TextView
+                            android:id="@+id/btnPreregistro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/buttonEntrar"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="22dp"
+                            android:gravity="center"
+                            android:text="@string/pre_registrarse"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+                </ScrollView>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/version_title"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textViewVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/txtVersion"
+        android:text="@string/version"
+        android:textSize="15sp"
+        android:visibility="visible" />
+
+
+    <ImageView
+        android:id="@+id/imageViewLogoMaster"
+        android:layout_width="90dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/contentDescription"
+        android:visibility="visible" />
+
+
+</RelativeLayout>
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#021f59</color>
+    <color name="colorPrimaryDark">#000030</color>
+    <color name="colorAccent">#03256F</color>
+    <color name="colorPrimaryDarT">#80000030</color>
+    <color name="colorPrimaryLight">#3c4687</color>
+
+    <color name="primary">#E43F3F</color>
+    <color name="primary_dark">#E12929</color>
+    <color name="primary_darker">#CC1D1D</color>
+    <color name="accent">#FFFFFF</color>
+
+    <color name="jet">#222222</color>
+    <color name="oil">#333333</color>
+    <color name="monsoon">#777777</color>
+    <color name="jumbo">#888888</color>
+    <color name="aluminum">#999999</color>
+    <color name="base">#AAAAAA</color>
+    <color name="iron">#CCCCCC</color>
+
+
+    <color name="transparente">#02ffffff</color>
+    <color name="blackMask">#e30d0c0c</color>
+    <color name="blackAlpha">#a50d0c0c</color>
+    <color name="bb_darkBackgroundColor">#212121</color>
+
+    <!-- Custom Alert-->
+    <color name="colorTitle">#292929</color>
+    <color name="colorText">#615e5e</color>
+    <color name="black">#4B4343</color>
+
+    <color name="white">#ffffff</color>
+    <color name="background">#F0F0F0</color>
+    <color name="error">#B93839</color>
+    <color name="success">#19AA39</color>
+    <color name="activa">#127228</color>
+    <color name="yellow">#e6d00c</color>
+    <color name="color_file_explorer">#ECD93C</color>
+    <color name="naranja">#FFC107</color>
+    <color name="color_window_marker">#a50d0c0c</color>
+    <color name="backgroundForCard">#f2f3f4</color>
+    <color name="blackDefault">#808080</color>
+    <color name="colorWhats">#25d366</color>
+    <color name="colorteam">#22A2F2</color>
+    <color name="rosaoops">#BF267A</color>
+
+    <!--
+    <color name="colorPrimary">#021f59</color>
+    <color name="colorPrimaryLight">#3c4687</color>
+    <color name="colorPrimaryDark">#000030</color>
+    <color name="colorPrimaryDarT">#80000030</color>
+    <color name="colorAccent">#03256F</color>
+    -->
+
+</resources>
