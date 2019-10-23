@@ -68,9 +68,9 @@ public class Home_TT extends AppCompatActivity {
 
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new Fragment_uno(), "MAPA");
-        adapter.addFrag(new Fragment_dos(), "CONTACTOS");
-        adapter.addFrag(new Fragment_tres(), "ZONAS");
+        adapter.addFrag(new Fragment_uno(), "CONTACTOS");
+        adapter.addFrag(new Fragment_dos(), "ZONA");
+        adapter.addFrag(new Fragment_tres(), "MAPAS");
         viewPager.setAdapter(adapter);
     }
 

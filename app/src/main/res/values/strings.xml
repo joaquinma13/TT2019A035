@@ -14,4 +14,9 @@
     <string name="cancelar">Cancelar</string>
     <string name="activar">Activar</string>
 
+
+    <string name="nombre_contacto">Nombre contacto: </string>
+
+    <string name="telefono">Telefono: </string>
+
 </resources>
