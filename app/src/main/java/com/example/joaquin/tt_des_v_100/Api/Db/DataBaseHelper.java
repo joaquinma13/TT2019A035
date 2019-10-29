@@ -63,6 +63,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         );
         Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_CONTACTO");
 
+        //---------------------------------- TB_ZONA ------------------------------------
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_ZONAS + "(" +
+                DataBaseDB.NOMBRE + " TEXT, " +          // 0
+                DataBaseDB.LATITUD + " TEXT, " +         // 1
+                DataBaseDB.LONGITUD + " TEXT); "         // 2
+        );
+        Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_ZONAS");
+
     }
 
 

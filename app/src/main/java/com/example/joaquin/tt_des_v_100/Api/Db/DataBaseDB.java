@@ -10,6 +10,7 @@ public class DataBaseDB {
     /* TABLAS */
     public static final String TB_NAME_USUARIO = "tb_name_usuario";
     public static final String TB_CONTACTO = "tb_name_contacto";
+    public static final String TB_ZONAS = "tb_name_zona";
     public static final String TB_NAME_CAT_0 = "tb_name_cat_0"; // Pregunta
 
 
@@ -24,6 +25,8 @@ public class DataBaseDB {
     public static String ESTATUS_USUARIO = "estatus_usuario";
     public static String CORREO_ELECTRONICO = "correo_electronico";
     public static String TELEFONO = "telefono";
+    public static String LATITUD = "latitud";
+    public static String LONGITUD = "longitud";
 
     // TB_NAME_CAT_0 (Preguntas)
     public static String CAT_PREG_ID = "cat_preg_id";

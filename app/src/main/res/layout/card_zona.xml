@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    app:cardUseCompatPadding="true">
+
+    <FrameLayout
+        android:id="@+id/cardStatus"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        android:padding="3dp"
+        android:visibility="visible" />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="2dp">
+
+
+        <TextView
+        android:id="@+id/labelZona"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="0dp"
+        android:text="Zona: "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textCardZona"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@+id/labelZona"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:text="Nombre" />
+
+        <TextView
+            android:id="@+id/labelLatitud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textCardZona"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:text="Latitud: "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textCardLatitud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textCardZona"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/labelLatitud"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:text="Nombre" />
+
+        <TextView
+            android:id="@+id/labelLongitud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textCardLatitud"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:text="Longitud: "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textCardLongitud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textCardLatitud"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/labelLongitud"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:text="Nombre" />
+
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -76,6 +76,14 @@ public class Item {
     }
 
     // Contacto
+    public Item(String nombre, boolean state, Double latitud, Double longitud) {
+        this.nombre = nombre;
+        this.state = state;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+    // Contacto
     public Item(String nombre, String telefono) {
         this.nombre = nombre;
         this.telefono = telefono;

@@ -48,17 +48,8 @@ import java.util.TimerTask;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_uno#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Fragment_uno extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    //private Button btnGetContact;
+
     private FloatingActionButton btnGetContact;
     private RecyclerView recyclerContact;
     private AdpCuentas recyclerAdapter;
@@ -66,40 +57,8 @@ public class Fragment_uno extends Fragment {
     public static ArrayList<Item> itemsContact = new ArrayList<>();
     public static ArrayList<String> selectedContact = new ArrayList<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
     public Fragment_uno() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_uno.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Fragment_uno newInstance(String param1, String param2) {
-        Fragment_uno fragment = new Fragment_uno();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -147,17 +106,13 @@ public class Fragment_uno extends Fragment {
 
                 LinearLayout layout = viewE.findViewById(R.id.checkBoxGroupL);
                 CheckBox cb;
-                //TextView tvCuant;
                 View child;
                 for (int i = 0; i < itemsContact.size(); i++) {
                     child = getLayoutInflater().inflate(R.layout.checbox_group_route, null);
 
                     cb = child.findViewById(R.id.checkBox);
-                    //tvCuant = child.findViewById(R.id.Cuantos);
 
                     cb.setText(itemsContact.get(i).getNombre());
-                    //tvCuant.setText(String.valueOf(itemsEs.get(i).getiEMC()));
-                    //cb.setChecked(selectedEs.contains(cb.getText().toString()));
 
                     cb.setId(i);
 
