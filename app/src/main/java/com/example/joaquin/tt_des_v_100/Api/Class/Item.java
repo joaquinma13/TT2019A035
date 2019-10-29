@@ -15,6 +15,7 @@ public class Item {
     private double longitud;
     private String addressgoogle;
     private String comentario;
+    private boolean state;
 
     private int index;
     private double distancia;
@@ -66,6 +67,13 @@ public class Item {
         this.id = id;
     }
 
+
+    // Contacto
+    public Item(String nombre, String telefono, boolean state) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.state = state;
+    }
 
     // Contacto
     public Item(String nombre, String telefono) {

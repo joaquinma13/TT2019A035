@@ -43,7 +43,6 @@ public class AdpCuentas extends RecyclerView.Adapter<AdpCuentas.ViewHolder> {
         final Item cuenta = (Item) listCuentas.get(position);
 
         holder.textCardContacto.setText(cuenta.getNombre());
-        holder.textCardTelefono.setText(cuenta.getTelefono());
     }
 
     @Override
@@ -56,13 +55,11 @@ public class AdpCuentas extends RecyclerView.Adapter<AdpCuentas.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textCardContacto;
-        private TextView textCardTelefono;
 
 
         ViewHolder(View itemView) {
             super(itemView);
             textCardContacto = itemView.findViewById(R.id.textCardContacto);
-            textCardTelefono = itemView.findViewById(R.id.textCardTelefono);
         }
     }
 

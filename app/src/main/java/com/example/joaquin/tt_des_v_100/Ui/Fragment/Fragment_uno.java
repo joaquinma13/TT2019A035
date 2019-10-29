@@ -215,11 +215,11 @@ public class Fragment_uno extends Fragment {
 
                             if (c.moveToFirst()) {
                                 do {
-
                                     System.out.println(c.getString(0));
                                     contacto.add(new Item(
                                                     c.getString(0),
-                                                    c.getString(1)
+                                                    c.getString(1),
+                                            true
                                             )
                                     );
                                 } while (c.moveToNext());
@@ -318,7 +318,8 @@ public class Fragment_uno extends Fragment {
                 do {
                     contacto.add(new Item(
                             c.getString(0),
-                            c.getString(1)
+                            c.getString(1),
+                            true
                             )
                     );
                 } while (c.moveToNext());

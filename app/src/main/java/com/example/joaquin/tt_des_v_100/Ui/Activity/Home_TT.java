@@ -67,6 +67,7 @@ public class Home_TT extends AppCompatActivity {
     */
 
     private void addTabs(ViewPager viewPager) {
+        viewPager.setOffscreenPageLimit(3);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new Fragment_uno(), "CONTACTOS");
         adapter.addFrag(new Fragment_dos(), "ZONA");
