@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -64,6 +66,7 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
     public static Fragment frag_editar;
     public static CustomAlert edit_alert;
     private SupportMapFragment mapaG;
+    private double longitudeBest, latitudeBest;
 
     private TextView textLat, textLong, mostrarDirecion, textLatActual, textLongActual;
     private EditText direccion;
@@ -82,6 +85,8 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
     private SharePreference preference;
     private Marker newMarker;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +104,8 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
         Button clean = findViewById(R.id.clean);
         direccion = findViewById(R.id.direccion);
         direccion.setText("");
+
+        mapaG = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapEditar);
 
 
         cambiarCoordenadas.setOnClickListener(new View.OnClickListener() {
@@ -157,12 +164,37 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
                 }
             }
         });
+        Log.i(TAG, "onCreate()");
+
+        initGMaps();
+        createGoogleApi();
 
     }
 
 
 
     //////////////////////////////////////////
+
+    private void createGoogleApi() {
+        Log.d(TAG, "createGoogleApi()");
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+    }
+
+    private void initGMaps() {
+        mapaG.getMapAsync(this);
+        GoogleMapOptions options = new GoogleMapOptions();
+        options.useViewLifecycleInFragment(true);
+
+
+        mapaG = SupportMapFragment.newInstance(options);
+        mapaG.setRetainInstance(true);
+    }
 
     @Override
     public void onStart() {
@@ -258,20 +290,9 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
     }
 
     private void writeActualLocation(Location location) {
-        textLat.setText("Lat: " + location.getLatitude());
-        textLong.setText("Long: " + location.getLongitude());
-        //markerLocation(new LatLng(location.getLatitude(), location.getLongitude()));
-        if (preference.getBooData("flagfirstTime") && !preference.getBooData("flagEditFromMarker")) {
-            float zoom = 17f;
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom);
-            map.animateCamera(cameraUpdate);
-            preference.saveData("flagfirstTime", false);
-        } else if (!preference.getBooData("flagfirstTime") && !preference.getBooData("flagEditFromMarker")) {
-            float zoom = 17f;
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom);
-            map.animateCamera(cameraUpdate);
-
-        }
+        float zoom = 17f;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoom);
+        map.animateCamera(cameraUpdate);
     }
 
     private void writeLastLocation() {
@@ -302,9 +323,8 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "onConnected()");
-        float zoom = 17f;
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude()), zoom);
-        map.animateCamera(cameraUpdate);
+
+        getLastKnownLocation();
 
     }
 
@@ -339,6 +359,7 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
         Log.d(TAG, "onMapReady()");
 
         map = googleMap;
+        map.setMyLocationEnabled(true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
@@ -362,7 +383,7 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
                 return false;
             }
         });
-        map.setMyLocationEnabled(true);
+
 
     }
 

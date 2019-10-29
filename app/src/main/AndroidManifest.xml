@@ -35,6 +35,10 @@
             android:name="com.google.android.actions"
             android:resource="@anim/push_left_in" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBG2Bs1ql8wXrFze2Z2NAmapfevt2NcK14" />
+
         <activity
             android:name=".Ui.Activity.ActLogin"
             android:screenOrientation="portrait">

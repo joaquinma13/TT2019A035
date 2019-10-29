@@ -56,9 +56,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <fragment class="com.google.android.gms.maps."
+        <fragment class="com.google.android.gms.maps.SupportMapFragment"
             android:id="@+id/mapEditar"
-            android:name="com.google.android.gms.maps."
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/rgModo"/>
