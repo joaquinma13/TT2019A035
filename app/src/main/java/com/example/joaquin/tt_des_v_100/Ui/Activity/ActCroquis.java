@@ -112,6 +112,8 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
             @Override
             public void onClick(View v) {
 
+                System.out.println("me voy!!!!");
+
                 finish();
 
                 /*if (newCoordenadas == null) {

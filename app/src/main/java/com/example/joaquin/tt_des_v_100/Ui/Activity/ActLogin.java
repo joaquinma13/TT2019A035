@@ -21,6 +21,10 @@ import android.widget.TextView;
 //import com.mc.oops.BuildConfig;
 
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
+import com.example.joaquin.tt_des_v_100.Api.Model.Autenticar;
+import com.example.joaquin.tt_des_v_100.Api.Service.APIInterface;
+import com.example.joaquin.tt_des_v_100.Api.Service.APIUtils;
+import com.example.joaquin.tt_des_v_100.Api.Service.WsAut;
 import com.example.joaquin.tt_des_v_100.BuildConfig;
 import com.example.joaquin.tt_des_v_100.Api.Class.Connection;
 import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
@@ -30,6 +34,7 @@ import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseHelper;
 import com.example.joaquin.tt_des_v_100.R;
+import com.google.gson.Gson;
 import com.tapadoo.alerter.Alerter;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -41,6 +46,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActLogin extends AppCompatActivity {
 
@@ -67,12 +76,17 @@ public class ActLogin extends AppCompatActivity {
 
     // VARIABLE
     private String strPass = "12345678";
-    public static boolean isSession = true;
+    public static boolean isSession = false;
+
+    //WebService
+    private APIInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_login);
+
+        apiInterface = APIUtils.getUtils(getApplicationContext(), "master").create(APIInterface.class);
 
 
         KeyboardVisibilityEvent.setEventListener(this,
@@ -135,8 +149,13 @@ public class ActLogin extends AppCompatActivity {
                 } else if (pass.trim().equalsIgnoreCase("")) {
                     inputPass.setError("Contraseña obligatoria");
                     etPass.requestFocus();
-                } else if (isSession) {
-                    // Si las contraseñas son iguales abrimos el Activity de Planfia
+                }/* else if (isSession) {
+
+                    getWebLogin("joaquinma1992@gmail.com", "$Yoyo1992");
+
+
+
+
                     if (pass.equals(strPass)) {
                         Utils.hideKeyboard(ActLogin.this);
                         final Intent intent = new Intent(ActLogin.this, Home_TT.class);
@@ -165,7 +184,10 @@ public class ActLogin extends AppCompatActivity {
                                 .setDuration(2000)
                                 .show();
                     }
-                } else {
+                } */else {
+
+                    new WsAut(ActLogin.this, "master").getWebLogin(user, pass);
+
 
                     /*if (connection.getConnection(2)) {
                         etUser.setEnabled(false);
@@ -213,26 +235,7 @@ public class ActLogin extends AppCompatActivity {
             }
         });
 
-        /*if (isSession) {
-
-            btnPreregistro.setVisibility(View.GONE);
-
-        } else {
-            btnPreregistro.setVisibility(View.VISIBLE);
-        }*/
-
-
-
-
-
-        txtCerrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //cerrar();
-            }
-        });
-
-        //startSecuenceTutorial();
+        getSession();
 
 
     }
@@ -262,6 +265,79 @@ public class ActLogin extends AppCompatActivity {
         return reply;
 
     }
+
+    private void getSession() {
+        try {
+            db = openOrCreateDatabase(DataBaseDB.DB_NAME, MODE_PRIVATE, null);
+            c = db.rawQuery("SELECT * FROM " + DataBaseDB.TB_NAME_USUARIO, null);
+
+            if (c.moveToFirst()) {
+
+                System.out.println("hay session");
+
+
+                final Intent intent = new Intent(ActLogin.this, Home_TT.class);
+                //final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
+                startActivity(intent);
+                finish();
+
+                /*new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(intent, options.toBundle());
+                                finish();
+                            }
+                        });
+                    }
+                }, 250);*/
+
+            }else{
+                System.out.println("no hay session");
+            }
+
+            //finish();
+        } catch (Exception ex) {
+            Log.e(TAG, "Error al consultar session: " + ex);
+        } finally {
+            c.close();
+            db.close();
+        }
+    }
+
+    /*public void getWebLogin(final String identificador, final String contrasena) {
+
+        final Call<Autenticar> call = apiInterface.postAutenticar(new Autenticar(identificador,contrasena));
+
+        call.enqueue(new Callback<Autenticar>() {
+            @Override
+            public void onResponse(final Call<Autenticar> call, Response<Autenticar> response) {
+
+                Log.d(TAG, String.valueOf(response.code()));
+
+                if (response.isSuccessful()) {
+
+                    Log.d("JSON: ", new Gson().toJson(response.body()));
+
+                    Autenticar aut = response.body();
+
+                    for (Autenticar.Respuesta usuario : aut.Respuesta) {
+                        System.out.println("Server Response: " + usuario.mensaje);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Autenticar> call, Throwable t) {
+                call.cancel();
+
+                System.out.println("Ya nos chingamos jajajaja");
+            }
+        });
+
+    }*/
 
 
     @Override

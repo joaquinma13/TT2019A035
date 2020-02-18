@@ -156,8 +156,8 @@ public class Fragment_uno extends Fragment {
 
                             for (int i = 0; i < selectedContact.size(); i++) {
 
-                                System.out.println("Usuario: " + selectedContact.get(i));
-                                values.put(DataBaseDB.USUARIO, selectedContact.get(i));
+                                System.out.println("NOMBRE: " + selectedContact.get(i));
+                                values.put(DataBaseDB.NOMBRE, selectedContact.get(i));
                                 values.put(DataBaseDB.TELEFONO, "11111111");
                                 db.insert(DataBaseDB.TB_CONTACTO, null, values);
                                 values.clear();
@@ -165,7 +165,7 @@ public class Fragment_uno extends Fragment {
 
                             contacto.clear();
                             System.out.println("Tam: " + contacto.size());
-                            c = db.rawQuery("SELECT " + DataBaseDB.USUARIO + ", " +
+                            c = db.rawQuery("SELECT " + DataBaseDB.NOMBRE + ", " +
                                     DataBaseDB.TELEFONO + " FROM " + DataBaseDB.TB_CONTACTO, null);
 
                             if (c.moveToFirst()) {
@@ -238,13 +238,13 @@ public class Fragment_uno extends Fragment {
             db = getContext().openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
 
             ContentValues values = new ContentValues();
-            values.put(DataBaseDB.USUARIO, "Luis");
+            values.put(DataBaseDB.NOMBRE, "Luis");
             values.put(DataBaseDB.TELEFONO, "11111111");
             db.insert(DataBaseDB.TB_CONTACTO, null, values);
 
             values.clear();
 
-            values.put(DataBaseDB.USUARIO, "Juan");
+            values.put(DataBaseDB.NOMBRE, "Juan");
             values.put(DataBaseDB.TELEFONO, "22222222");
             db.insert(DataBaseDB.TB_CONTACTO, null, values);
 
@@ -266,7 +266,7 @@ public class Fragment_uno extends Fragment {
 
         try {
             db = getContext().openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
-            c = db.rawQuery("SELECT " + DataBaseDB.USUARIO + ", " +
+            c = db.rawQuery("SELECT " + DataBaseDB.NOMBRE + ", " +
                     DataBaseDB.TELEFONO + " FROM " + DataBaseDB.TB_CONTACTO, null);
 
             if (c.moveToFirst()) {

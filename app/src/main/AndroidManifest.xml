@@ -27,14 +27,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Ui.Activity.ActCroquis"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Ui.Activity.ActRegistro"></activity>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity android:name=".Ui.Activity.ActCroquis" />
         <activity android:name=".Ui.Activity.signUp" />
 
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@anim/push_left_in" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBG2Bs1ql8wXrFze2Z2NAmapfevt2NcK14" />

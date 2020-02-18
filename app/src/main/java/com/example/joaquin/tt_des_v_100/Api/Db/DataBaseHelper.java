@@ -20,46 +20,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         //---------------------------------- TABLE_NAME_USUARIO ------------------------------------
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_NAME_USUARIO + "(" +
-                DataBaseDB.USUARIO + " TEXT, " +                // 0
-                DataBaseDB.CONTRASENA + " TEXT, " +             // 1
-                DataBaseDB.NOMBRE + " TEXT, " +                 // 2
-                DataBaseDB.PERFIL + " TEXT, " +                 // 3
-                DataBaseDB.NOMBRE_PERFIL + " TEXT, " +          // 4
-                DataBaseDB.SUPERVISOR + " TEXT, " +             // 5
-                DataBaseDB.FECHA_ALTA + " TEXT, " +             // 6
-                DataBaseDB.CORREO_ELECTRONICO + " TEXT, " +     // 7
-                DataBaseDB.ESTATUS_USUARIO + " TEXT); "         // 8
+                DataBaseDB.ID_USER + " TEXT, " +                // 0
+                DataBaseDB.NOMBRE + " TEXT, " +                 // 1
+                DataBaseDB.CORREO_ELECTRONICO + " TEXT, " +     // 2
+                DataBaseDB.TELEFONO + " TEXT, " +               // 3
+                DataBaseDB.CONTRASENA + " TEXT); "              // 4
         );
         Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_NAME_USUARIO");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_NAME_CAT_0 + "(" +
-                DataBaseDB.CAT_PREG_ID + " INTEGER, " +             // 0
-                DataBaseDB.CAT_PREG_CONSECUTIVO + " INTEGER, " +    // 1
-                DataBaseDB.CAT_PREG_DESCRIPCION + " TEXT, " +       // 2
-                DataBaseDB.CAT_PREG_BLOQUE + " TEXT, " +            // 3
-                DataBaseDB.CAT_PREG_SUBLOQUE + " TEXT, " +          // 4
-                DataBaseDB.CAT_PREG_HEADER + " TEXT, " +            // 5
-                DataBaseDB.CAT_PREG_AGENDABLE + " TEXT, " +         // 6
-                DataBaseDB.CAT_PREG_CAPTURA + " TEXT, " +           // 7
-                DataBaseDB.CAT_PREG_EDICION + " TEXT, " +           // 8
-                DataBaseDB.CAT_PREG_LECTURA + " TEXT, " +           // 9
-                DataBaseDB.CAT_PREG_ESTATUS + " TEXT, " +           // 10
-                DataBaseDB.CAT_PREG_PROCESO + " TEXT, " +           // 11
-                DataBaseDB.CAT_PREG_TIPORESPUESTA + " TEXT, " +     // 12
-                DataBaseDB.CAT_PREG_TIPODATO + " TEXT, " +          // 13
-                DataBaseDB.CAT_PREG_LONGITUD + " TEXT, " +          // 14
-                DataBaseDB.CAT_PREG_OBLIGATORIA + " TEXT, " +       // 15
-                DataBaseDB.CAT_PREG_DOCS_MAX + " TEXT, " +          // 16
-                DataBaseDB.CAT_PREG_DOCS_MIN + " TEXT, " +          // 17
-                DataBaseDB.CAT_PREG_COLOR + " TEXT);"               // 18   git shor log
-
-        );
-        Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_NAME_CAT_0");
-
         //---------------------------------- TB_CONTACTO ------------------------------------
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_CONTACTO + "(" +
-                DataBaseDB.USUARIO + " TEXT, " +        // 0
-                DataBaseDB.TELEFONO+ " TEXT); "         // 1
+                DataBaseDB.ID_USER + " TEXT, " +        // 0
+                DataBaseDB.NOMBRE + " TEXT, " +        // 0
+                DataBaseDB.SENAL + " TEXT, " +        // 0
+                DataBaseDB.BATERIA + " TEXT, " +        // 0
+                DataBaseDB.IMEI + " TEXT, " +        // 0
+                DataBaseDB.MODELO + " TEXT, " +        // 0
+                DataBaseDB.LATITUD + " TEXT, " +        // 0
+                DataBaseDB.LONGITUD + " TEXT, " +        // 0
+                DataBaseDB.TELEFONO + " TEXT, " +        // 0
+                DataBaseDB.FECHA+ " TEXT); "         // 1
         );
         Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_CONTACTO");
 
