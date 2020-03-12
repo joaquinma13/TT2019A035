@@ -1,5 +1,6 @@
 package com.example.joaquin.tt_des_v_100.Ui.Activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseHelper;
+import com.example.joaquin.tt_des_v_100.Api.backservices.LocationService;
 import com.example.joaquin.tt_des_v_100.R;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.Fragment_dos;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.Fragment_tres;
@@ -40,13 +42,29 @@ public class Home_TT extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /* CREACION DE BASE DE DATOS */
-        sqliteHelper = new DataBaseHelper(this, DataBaseDB.DB_NAME, null, DataBaseDB.VERSION);
+        /*sqliteHelper = new DataBaseHelper(this, DataBaseDB.DB_NAME, null, DataBaseDB.VERSION);
         db = sqliteHelper.getWritableDatabase();
-        db.close();
+        db.close();*/
 
         /* CREACION DE PAGER */
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+
+        if (getIntent().getExtras() != null) {
+            //init message
+
+            System.out.println("tengo extras");
+
+            for (String key : getIntent().getExtras().keySet()) {
+
+                System.out.println("LLAVE: " + key );
+
+            }
+
+        }
+
+        stopService(new Intent(this, LocationService.class));
+        startService(new Intent(this, LocationService.class));
 
         viewPager = findViewById(R.id.viewpager);
         addTabs(viewPager);

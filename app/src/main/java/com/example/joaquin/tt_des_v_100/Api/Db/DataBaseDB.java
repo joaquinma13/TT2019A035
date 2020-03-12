@@ -11,6 +11,7 @@ public class DataBaseDB {
     public static final String TB_NAME_USUARIO = "tb_name_usuario";
     public static final String TB_CONTACTO = "tb_name_contacto";
     public static final String TB_ZONAS = "tb_name_zona";
+    public static final String TB_BITACORA = "tb_bitacora";
     public static final String TB_NAME_CAT_0 = "tb_name_cat_0"; // Pregunta
 
 
@@ -31,5 +32,17 @@ public class DataBaseDB {
     public static String FECHA = "fecha";
     public static String LATITUD = "latitud";
     public static String LONGITUD = "longitud";
+
+    // TB_BITACORA
+
+    /*private String id_user;
+    private String senal;
+    private String bateria;
+    private String imei;
+    private String modelo;
+    private String latitud;
+    private String longitud;
+    private String fecha;*/
+
 
 }

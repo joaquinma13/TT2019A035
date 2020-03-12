@@ -34,6 +34,7 @@ import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseHelper;
 import com.example.joaquin.tt_des_v_100.R;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.tapadoo.alerter.Alerter;
 
@@ -86,6 +87,8 @@ public class ActLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_login);
 
+
+
         apiInterface = APIUtils.getUtils(getApplicationContext(), "master").create(APIInterface.class);
 
 
@@ -112,6 +115,8 @@ public class ActLogin extends AppCompatActivity {
         sqliteHelper = new DataBaseHelper(this, DataBaseDB.DB_NAME, null, DataBaseDB.VERSION);
         db = sqliteHelper.getWritableDatabase();
         db.close();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("topic_general");
 
         permission = new Permission(this);
         connection = new Connection(this);
@@ -205,7 +210,24 @@ public class ActLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final CustomAlert alert = new CustomAlert(ActLogin.this);
+                final Intent intent = new Intent(ActLogin.this, ActRegistro.class);
+                final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
+
+
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(intent, options.toBundle());
+                                finish();
+                            }
+                        });
+                    }
+                }, 250);
+
+                /*final CustomAlert alert = new CustomAlert(ActLogin.this);
                 alert.setTypeWarning("No disponible", "Se esta trabajando en la vista", "Aceptar");
                 alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -213,7 +235,7 @@ public class ActLogin extends AppCompatActivity {
                         alert.close();
                     }
                 });
-                alert.show();
+                alert.show();*/
 
                 /*if (getCorreoPreregistro() == null) {
                     Intent intent = new Intent(ActLogin.this, Home_TT.class);
@@ -338,6 +360,8 @@ public class ActLogin extends AppCompatActivity {
         });
 
     }*/
+
+
 
 
     @Override

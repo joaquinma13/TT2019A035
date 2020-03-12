@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
 import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
@@ -17,7 +20,9 @@ import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Model.Autenticar;
+import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeUsuario;
 import com.example.joaquin.tt_des_v_100.R;
+import com.example.joaquin.tt_des_v_100.Ui.Activity.ActRegistro;
 import com.example.joaquin.tt_des_v_100.Ui.Activity.Home_TT;
 import com.google.gson.Gson;
 import com.tapadoo.alerter.Alerter;
@@ -30,9 +35,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WsAut {
+public class WsRecUser {
 
-    private static final String TAG = WsAut.class.getSimpleName();
+    private static  final String TAG = WsRecUser.class.getSimpleName();
 
     private Activity act;
     private APIInterface apiInterface;
@@ -42,7 +47,7 @@ public class WsAut {
 
     private SharePreference preference;
 
-    public WsAut(Activity act, String endpoint) {
+    public WsRecUser(Activity act, String endpoint) {
         this.act = act;
         apiInterface = APIUtils.getUtils(act, endpoint).create(APIInterface.class);
 
@@ -51,11 +56,14 @@ public class WsAut {
         preference = SharePreference.getInstance(act);
     }
 
-    public void getWebLogin(final String user, final String pass) {
+    public void setUser(final String id_user, final String nombre, final String correo, final String telefono,
+                        final String contrasena, final String bandera, final RelativeLayout relCodigo, final ScrollView scrollForm,
+                        final TextView titleCodigo) {
+
 
         Utils.cancel = false;
 
-        final Call<Autenticar> call = apiInterface.postAutenticar(new Autenticar(user, pass));
+        final Call<WsRecibeUsuario> call = apiInterface.postRecibeUsuario(new WsRecibeUsuario(id_user, nombre, correo, telefono, contrasena, bandera, preference.getStrData("token")));
 
         final CustomAlert alert = new CustomAlert(act);
         alert.setTypeProgress("Conectando...", "", "Cancelar");
@@ -65,27 +73,13 @@ public class WsAut {
             public void onClick(View view) {
                 call.cancel();
                 alert.close();
-                Utils.cancel = true;
-                SQLiteDatabase db = null;
-                try {
-                    db = act.openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
-                    db.delete(DataBaseDB.TB_NAME_USUARIO, null, null);
-                    //TODO db.delete(DB.TB_INFO_GRAL, null, null);
-                    //TODO db.delete(DB.TB_ACUERDOS, null, null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (db != null) {
-                        db.close();
-                    }
-                }
             }
         });
         alert.show();
 
-        call.enqueue(new Callback<Autenticar>() {
+        call.enqueue(new Callback<WsRecibeUsuario>() {
             @Override
-            public void onResponse(final Call<Autenticar> call, Response<Autenticar> response) {
+            public void onResponse(final Call<WsRecibeUsuario> call, Response<WsRecibeUsuario> response) {
 
                 Log.d(TAG, String.valueOf(response.code()));
 
@@ -93,13 +87,14 @@ public class WsAut {
 
                     Log.d("JSON: ", new Gson().toJson(response.body()));
 
-                    Autenticar aut = response.body();
+                    WsRecibeUsuario recUser = response.body();
 
-                    for (Autenticar.Usuario usuario : aut.Usuario) {
-                        System.out.println("Server Response: " + aut.Estatus);
+                    for (WsRecibeUsuario.Usuario usuario : recUser.Usuario) {
+                        System.out.println("Server Response: " + recUser.Estatus);
 
-                        if (!aut.Estatus.toUpperCase(Locale.ENGLISH).equals("OK")) {
-                            alert.setTypeError("Error", aut.Estatus, "Cancelar", "Volver a intentar");
+                        if (!recUser.Estatus.toUpperCase(Locale.ENGLISH).equals("OK")) {
+                            ActRegistro.bandera = "0";
+                            alert.setTypeError("Error", recUser.Estatus, "Cancelar", "Volver a intentar");
                             alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -111,16 +106,112 @@ public class WsAut {
                                 @Override
                                 public void onClick(View v) {
                                     alert.close();
-                                    getWebLogin(user, pass);
+                                    setUser(id_user,nombre,correo,telefono,
+                                    contrasena,bandera,relCodigo,scrollForm,titleCodigo);
+                                }
+                            });
+
+                        } else {
+
+                            act.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    alert.close();
+                                    relCodigo.setVisibility(View.VISIBLE);
+                                    scrollForm.setVisibility(View.GONE);
+                                    titleCodigo.setText("Para finalizar su registro busque en el buzon de su correo " + correo + " un mensaje enviado desde la direccion algo@gmail.com que contiene el codigo de confirmacion.");
+
+
+                                }
+                            });
+
+
+
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WsRecibeUsuario> call, Throwable t) {
+                call.cancel();
+
+                alert.setTypeError("ON FAILURE", t.toString(), "Cancelar", "Volver a intentar");
+                alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alert.close();
+                    }
+                });
+                alert.getBtnRight().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.close();
+                        setUser(id_user,nombre,correo,telefono,
+                                contrasena,bandera,relCodigo,scrollForm,titleCodigo);
+                    }
+                });
+            }
+        });
+    }
+
+    public void setUser(final String id_user, final String codigo,
+                        final String contrasena, final String bandera) {
+
+
+
+        final Call<WsRecibeUsuario> call = apiInterface.postRecibeUsuario(new WsRecibeUsuario(id_user, contrasena, codigo, bandera));
+
+        final CustomAlert alert = new CustomAlert(act);
+        alert.setTypeProgress("Conectando...", "", "Cancelar");
+        alert.setCancelable(false);
+        alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                call.cancel();
+                alert.close();
+            }
+        });
+        alert.show();
+
+        call.enqueue(new Callback<WsRecibeUsuario>() {
+            @Override
+            public void onResponse(final Call<WsRecibeUsuario> call, Response<WsRecibeUsuario> response) {
+
+                Log.d(TAG, String.valueOf(response.code()));
+
+                if (response.isSuccessful()) {
+
+                    Log.d("JSON: ", new Gson().toJson(response.body()));
+
+                    WsRecibeUsuario recUser = response.body();
+
+                    for (WsRecibeUsuario.Usuario usuario : recUser.Usuario) {
+                        System.out.println("Server Response: " + recUser.Estatus);
+
+                        if (!recUser.Estatus.toUpperCase(Locale.ENGLISH).equals("OK")) {
+                            alert.setTypeError("Error", recUser.Estatus, "Cancelar", "Volver a intentar");
+                            alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    call.cancel();
+                                    alert.close();
+                                }
+                            });
+                            alert.getBtnRight().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alert.close();
+                                    setUser(id_user,codigo,
+                                            contrasena,bandera);
                                 }
                             });
 
                         } else {
 
                             alert.close();
-
-                            preference.saveData("id_user", usuario.id_user);
-                            preference.saveData("nombre", usuario.nombre);
 
                             if( saveUser(usuario.id_user, usuario.nombre, usuario.correo, usuario.telefono, usuario.contrasena) > 0 ){
 
@@ -142,6 +233,9 @@ public class WsAut {
                                 }, 250);
 
                             }
+
+
+
                         }
 
                     }
@@ -149,7 +243,7 @@ public class WsAut {
             }
 
             @Override
-            public void onFailure(Call<Autenticar> call, Throwable t) {
+            public void onFailure(Call<WsRecibeUsuario> call, Throwable t) {
                 call.cancel();
 
                 alert.setTypeError("ON FAILURE", t.toString(), "Cancelar", "Volver a intentar");
@@ -163,7 +257,8 @@ public class WsAut {
                     @Override
                     public void onClick(View v) {
                         alert.close();
-                        getWebLogin(user, pass);
+                        setUser(id_user,codigo,
+                                contrasena,bandera);
                     }
                 });
             }
@@ -308,3 +403,4 @@ public class WsAut {
     }
 
 }
+

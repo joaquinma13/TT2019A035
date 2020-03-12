@@ -3,6 +3,7 @@ package com.example.joaquin.tt_des_v_100.Api.Class;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -28,9 +29,14 @@ public class Permission {
     };
 
     private Activity act;
+    private Context context;
 
     public Permission(Activity act) {
         this.act = act;
+    }
+
+    public Permission(Context context) {
+        this.context = context;
     }
 
     public boolean checkPermissions(boolean click_enter) {
@@ -112,9 +118,9 @@ public class Permission {
 
     public boolean checkPermissionIMEI() {
 
-        if (ContextCompat.checkSelfPermission(act, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 
-            final CustomAlert alert = new CustomAlert(act);
+            final CustomAlert alert = new CustomAlert(context);
             alert.setTypeWarning(
                     "ATENCIÓN",
                     "Para IMEI se requiere permiso",
@@ -132,9 +138,9 @@ public class Permission {
                     alert.close();
                     Intent intent = new Intent();
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", act.getPackageName(), null);
+                    Uri uri = Uri.fromParts("package", context.getPackageName(), null);
                     intent.setData(uri);
-                    act.startActivity(intent);
+                    context.startActivity(intent);
                 }
             });
             alert.setCancelable(false);

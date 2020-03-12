@@ -10,7 +10,7 @@
     <string name="prompt_user">Usuario:</string>
     <string name="prompt_password">Usuario:</string>
     <string name="sign_in">ENTRAR</string>
-    <string name="pre_registrarse">Pre-registrarse</string>
+    <string name="pre_registrarse">Registrarse</string>
     <string name="version_title">Versión:</string>
     <string name="version">dr_v1.0.0</string>
     <string name="cancelar">Cancelar</string>
@@ -20,5 +20,14 @@
     <string name="nombre_contacto">Nombre contacto: </string>
 
     <string name="telefono">Telefono: </string>
+
+    <!-- View Registrarse -->
+    <string name="registro">Registro</string>
+    <string name="nombre_user">Nombre de usuario</string>
+    <string name="correo">Correo electronico</string>
+    <string name="phone_user">Número telefonico</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="confirmar">Confirmación</string>
+    <string name="guardar">Guardar</string>
 
 </resources>

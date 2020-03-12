@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1023118586589",
+    "firebase_url": "https://trabajo-terminal-d9cbb.firebaseio.com",
+    "project_id": "trabajo-terminal-d9cbb",
+    "storage_bucket": "trabajo-terminal-d9cbb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023118586589:android:43b9a741689b29b9fa6134",
+        "android_client_info": {
+          "package_name": "com.example.joaquin.tt_des_v_100"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023118586589-6up5sdn9ou2pqp8i85gao5i17ondtk9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.joaquin.tt_des_v_100",
+            "certificate_hash": "0446b70f958c925e8f3507c2d954bf07f770e3ce"
+          }
+        },
+        {
+          "client_id": "1023118586589-vkp9q0ubggifels6dfpmqupus176s14h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs6Y1Np5ItFbH9DqXywxmQVZH8Hts0su0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023118586589-vkp9q0ubggifels6dfpmqupus176s14h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

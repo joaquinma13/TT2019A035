@@ -16,4 +16,15 @@ public interface APIInterface {
 
     @POST("loginUsers.php")
     Call<Autenticar> postAutenticar(@Body Autenticar wsPass);
+
+    @POST("registerUsers.php")
+    Call<WsRecibeUsuario> postRecibeUsuario(@Body WsRecibeUsuario wsUser);
+
+    @POST("recibeBitacora.php")
+    Call<WsRecibeBitacora> postRecibeBitacora(@Body WsRecibeBitacora wsBitacora);
+
+    @POST("vinculaUser.php")
+    Call<WsRecibeUsuario> postVinculaUsuario(@Body WsRecibeUsuario wsVincula);
+
+
 }

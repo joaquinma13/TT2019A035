@@ -26,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 DataBaseDB.TELEFONO + " TEXT, " +               // 3
                 DataBaseDB.CONTRASENA + " TEXT); "              // 4
         );
-        Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_NAME_USUARIO");
+        Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_   NAME_USUARIO");
 
         //---------------------------------- TB_CONTACTO ------------------------------------
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_CONTACTO + "(" +

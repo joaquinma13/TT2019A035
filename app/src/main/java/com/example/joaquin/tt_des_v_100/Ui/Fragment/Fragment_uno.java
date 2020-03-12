@@ -27,13 +27,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
 import com.example.joaquin.tt_des_v_100.Api.Class.Item;
+import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Listener.Recycler;
+import com.example.joaquin.tt_des_v_100.Api.Service.WsVinculaUser;
 import com.example.joaquin.tt_des_v_100.R;
 import com.example.joaquin.tt_des_v_100.Ui.Adapter.AdpCuentas;
 import com.google.android.gms.maps.model.LatLng;
@@ -51,11 +54,16 @@ import static android.content.ContentValues.TAG;
 public class Fragment_uno extends Fragment {
 
     private FloatingActionButton btnGetContact;
-    private RecyclerView recyclerContact;
-    private AdpCuentas recyclerAdapter;
+    public static RecyclerView recyclerContact;
+    public static AdpCuentas recyclerAdapter;
     private ArrayList<Item> contacto = new ArrayList<>();
     public static ArrayList<Item> itemsContact = new ArrayList<>();
     public static ArrayList<String> selectedContact = new ArrayList<>();
+    public static ArrayList<String> selectedPhone = new ArrayList<>();
+    public static int count = 0;
+    public static int error = 0;
+    private SharePreference preference;
+    private RelativeLayout relAlerta;
 
     public Fragment_uno() {
         // Required empty public constructor
@@ -73,6 +81,7 @@ public class Fragment_uno extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //putElements();
+        preference = SharePreference.getInstance(getActivity());
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,6 +91,8 @@ public class Fragment_uno extends Fragment {
         }).start();
         btnGetContact = getActivity().findViewById(R.id.btnGetContact);
         recyclerContact = getActivity().findViewById(R.id.recyclerContact);
+
+        relAlerta = getActivity().findViewById(R.id.relAlerta);
 
         recyclerContact.setHasFixedSize(true);
         recyclerContact.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -116,16 +127,41 @@ public class Fragment_uno extends Fragment {
 
                     cb.setId(i);
 
+                    for(Item a : contacto){
+
+                        if (a.getNombre().equals(itemsContact.get(i).getNombre()))
+                            cb.setEnabled(false);
+
+                    }
+
                     cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                             if (b) {
-                                System.out.println("index: " + compoundButton.getId());
+                                final CustomAlert alert = new CustomAlert(getActivity());
+                                alert.setTypeProgress("Conectando...", "", "Cancelar");
+                                alert.setCancelable(false);
+                                alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        relAlerta.setVisibility(View.VISIBLE);
+                                        alert.close();
+                                    }
+                                });
+                                relAlerta.setVisibility(View.GONE);
+                                alert.show();
+                                /*
+                                System.out.println("nombre: " + compoundButton.getText().toString());
+                                System.out.println("telefono: " + itemsContact.get(compoundButton.getId()).getTelefono().replace(" ",""));
+                                //System.out.println("LONGITUD: " + itemsContact.get(compoundButton.getId()).getTelefono().replace(" ","").substring(itemsContact.get(compoundButton.getId()).getTelefono().replace(" ","").length() - 10)  );
                                 selectedContact.add(compoundButton.getText().toString());
+                                selectedPhone.add( itemsContact.get(compoundButton.getId()).getTelefono().replace(" ","").substring(itemsContact.get(compoundButton.getId()).getTelefono().replace(" ","").length() - 10)  );
+                            */
                             } else {
                                 for (int i = 0; i < selectedContact.size(); i++) {
                                     if (selectedContact.get(i).equals((compoundButton.getText().toString()))) {
                                         selectedContact.remove(i);
+                                        selectedPhone.remove(i);
                                     }
                                 }
                             }
@@ -147,58 +183,38 @@ public class Fragment_uno extends Fragment {
                     public void onClick(View v) {
 
 
+                        Fragment_uno.count = 0;
+                        Fragment_uno.error = 0;
                         SQLiteDatabase db = null;
-                        ContentValues values = new ContentValues();
-                        Cursor c = null;
+                        alerta.close();
+
+                        final CustomAlert alert = new CustomAlert(getActivity());
+                        alert.setTypeProgress("Conectando...", "", "Cancelar");
+                        alert.setCancelable(false);
+                        alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alert.close();
+                            }
+                        });
+                        alert.show();
 
                         try {
                             db = getContext().openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
-
                             for (int i = 0; i < selectedContact.size(); i++) {
-
-                                System.out.println("NOMBRE: " + selectedContact.get(i));
-                                values.put(DataBaseDB.NOMBRE, selectedContact.get(i));
-                                values.put(DataBaseDB.TELEFONO, "11111111");
-                                db.insert(DataBaseDB.TB_CONTACTO, null, values);
-                                values.clear();
+                                new WsVinculaUser(getActivity(), "master").setVinculo(preference.getStrData("id_user"), selectedPhone.get(i), selectedContact.get(i),db,alert);
                             }
-
-                            contacto.clear();
-                            System.out.println("Tam: " + contacto.size());
-                            c = db.rawQuery("SELECT " + DataBaseDB.NOMBRE + ", " +
-                                    DataBaseDB.TELEFONO + " FROM " + DataBaseDB.TB_CONTACTO, null);
-
-                            if (c.moveToFirst()) {
-                                do {
-                                    System.out.println(c.getString(0));
-                                    contacto.add(new Item(
-                                                    c.getString(0),
-                                                    c.getString(1),
-                                            true
-                                            )
-                                    );
-                                } while (c.moveToNext());
-
-                            } else {
-                                System.out.println("No existen registros!!!");
-                            }
-
-                            recyclerAdapter = new AdpCuentas(getActivity(), contacto);
-                            recyclerContact.setAdapter(recyclerAdapter);
-
-
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         } finally {
-                            if (db != null) {
+                            /*if (db != null) {
                                 db.close();
                                 db = null;
-                            }
+                            }*/
                             Utils.freeMemory();
                         }
 
-                        alerta.close();
+
                     }
                 });
 
