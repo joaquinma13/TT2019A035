@@ -1,5 +1,7 @@
 package com.example.joaquin.tt_des_v_100.Ui.Activity;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,30 +43,66 @@ public class Home_TT extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* CREACION DE BASE DE DATOS */
-        /*sqliteHelper = new DataBaseHelper(this, DataBaseDB.DB_NAME, null, DataBaseDB.VERSION);
-        db = sqliteHelper.getWritableDatabase();
-        db.close();*/
-
         /* CREACION DE PAGER */
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
         if (getIntent().getExtras() != null) {
-            //init message
+            SQLiteDatabase db;
+            db = openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
 
-            System.out.println("tengo extras");
+            if(getIntent().getStringExtra("bandera").equals("1")){
+                int idSave = 0;
+                if (db != null) {
+                    ContentValues values = new ContentValues();
+                    values.put(DataBaseDB.ID_USER, getIntent().getStringExtra("id_user"));
+                    values.put(DataBaseDB.NOMBRE, getIntent().getStringExtra("nombre"));
+                    values.put(DataBaseDB.ESTATUS, "Pendiente2");
+                    idSave = db.update(DataBaseDB.TB_CONTACTO, values,
+                            DataBaseDB.TELEFONO + "='" + getIntent().getStringExtra("telefono")  + "'", null);
 
-            for (String key : getIntent().getExtras().keySet()) {
+                    if (idSave == 0){
 
-                System.out.println("LLAVE: " + key );
+                        values.clear();
+                        values.put(DataBaseDB.ID_USER, getIntent().getStringExtra("id_user"));
+                        values.put(DataBaseDB.NOMBRE, getIntent().getStringExtra("nombre"));
+                        values.put(DataBaseDB.TELEFONO, getIntent().getStringExtra("telefono"));
+                        values.put(DataBaseDB.ESTATUS, "Pendiente2");
+                        db.insert(DataBaseDB.TB_CONTACTO, null, values);
 
+                    }
+
+                }else{
+                    System.out.println("puntero cerrado");
+                }
+            }else if (getIntent().getStringExtra("bandera").equals("2")){
+                if (db != null) {
+                    ContentValues values = new ContentValues();
+                    values.put(DataBaseDB.ESTATUS, "Activo");
+                    db.update(DataBaseDB.TB_CONTACTO, values,
+                            DataBaseDB.ID_USER + "='" + getIntent().getStringExtra("id_user")  + "'", null);
+
+                }else{
+                    System.out.println("puntero cerrado");
+                }
+            }else if (getIntent().getStringExtra("bandera").equals("3")){
+                if (db != null) {
+                    ContentValues values = new ContentValues();
+                    values.put(DataBaseDB.ESTATUS, "nulo");
+                    db.update(DataBaseDB.TB_CONTACTO, values,
+                            DataBaseDB.ID_USER + "='" + getIntent().getStringExtra("id_user")  + "'", null);
+
+                }else{
+                    System.out.println("puntero cerrado");
+                }
             }
+
+            db.close();
 
         }
 
         stopService(new Intent(this, LocationService.class));
-        startService(new Intent(this, LocationService.class));
+        //startService(new Intent(this, LocationService.class));
 
         viewPager = findViewById(R.id.viewpager);
         addTabs(viewPager);

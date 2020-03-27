@@ -16,6 +16,10 @@ public class WsRecibeBitacora {
     private String longitud;
     private String fecha;
 
+    public WsRecibeBitacora (String id_user){
+        this.id_user = id_user;
+    }
+
     public WsRecibeBitacora(String id_user, String senal, String bateria, String imei, String modelo, String latitud,
                             String longitud, String fecha){
         this.id_user = id_user;
@@ -60,6 +64,12 @@ public class WsRecibeBitacora {
 
         @SerializedName("fecha")
         public String fecha;
+
+        @SerializedName("nombre")
+        public String nombre;
+
+        @SerializedName("telefono")
+        public String telefono;
 
     }
 

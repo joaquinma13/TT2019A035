@@ -29,5 +29,6 @@
     <string name="contrasena">Contraseña</string>
     <string name="confirmar">Confirmación</string>
     <string name="guardar">Guardar</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

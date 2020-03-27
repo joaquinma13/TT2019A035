@@ -30,7 +30,7 @@
             android:id="@+id/labelContacto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="15dp"
             android:text="Nombre: "
             android:textColor="@color/colorPrimaryDark"
@@ -43,10 +43,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="15dp"
+            android:maxLines="2"
             android:layout_toEndOf="@+id/labelContacto"
             android:singleLine="true"
             android:textSize="20sp"
             android:text="Nombre" />
+
+        <ImageView
+
+            android:id="@+id/imgAction"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@drawable/ic_add_circle_outline_black_24dp"
+
+
+            />
 
 
 

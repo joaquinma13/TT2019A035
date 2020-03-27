@@ -1,6 +1,7 @@
 package com.example.joaquin.tt_des_v_100.Ui.Activity;
 
 import android.app.ActivityOptions;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 //import com.mc.oops.BuildConfig;
 
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
+import com.example.joaquin.tt_des_v_100.Api.Class.Item;
 import com.example.joaquin.tt_des_v_100.Api.Model.Autenticar;
 import com.example.joaquin.tt_des_v_100.Api.Service.APIInterface;
 import com.example.joaquin.tt_des_v_100.Api.Service.APIUtils;
@@ -43,6 +46,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
@@ -78,6 +82,7 @@ public class ActLogin extends AppCompatActivity {
     // VARIABLE
     private String strPass = "12345678";
     public static boolean isSession = false;
+
 
     //WebService
     private APIInterface apiInterface;
@@ -137,6 +142,8 @@ public class ActLogin extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 inputUser.setError(null);
                 inputUser.setErrorEnabled(false);
@@ -258,35 +265,9 @@ public class ActLogin extends AppCompatActivity {
         });
 
         getSession();
-
-
     }
 
-    private String getCorreoPreregistro() {
 
-        SQLiteDatabase db = null;
-        Cursor c = null;
-        String reply = null;
-
-
-        try {
-            db = openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
-            c = db.rawQuery("SELECT " + DataBaseDB.CORREO_ELECTRONICO + " FROM " + DataBaseDB.TB_NAME_USUARIO, null);
-            if (c.moveToFirst()) {
-                reply = c.getString(0);
-            }
-
-        } catch (Exception ex) {
-            Log.e(TAG, "getCorreoPreregistro: " + ex.toString());
-        } finally {
-            Utils.close(c);
-            Utils.close(db);
-            Utils.freeMemory();
-        }
-        System.out.println("Valos del estatus : " + reply);
-        return reply;
-
-    }
 
     private void getSession() {
         try {
@@ -303,21 +284,8 @@ public class ActLogin extends AppCompatActivity {
                 startActivity(intent);
                 finish();
 
-                /*new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(intent, options.toBundle());
-                                finish();
-                            }
-                        });
-                    }
-                }, 250);*/
-
             }else{
-                System.out.println("no hay session");
+
             }
 
             //finish();
@@ -325,7 +293,6 @@ public class ActLogin extends AppCompatActivity {
             Log.e(TAG, "Error al consultar session: " + ex);
         } finally {
             c.close();
-            db.close();
         }
     }
 

@@ -9,10 +9,12 @@ public class Autenticar {
 
     private String identificador;
     private String contrasena;
+    private String token;
 
-    public Autenticar(String identificador, String contrasena) {
+    public Autenticar(String identificador, String contrasena, String token) {
         this.identificador = identificador;
         this.contrasena = contrasena;
+        this.token = token;
     }
 
     @SerializedName("Usuario")

@@ -26,5 +26,8 @@ public interface APIInterface {
     @POST("vinculaUser.php")
     Call<WsRecibeUsuario> postVinculaUsuario(@Body WsRecibeUsuario wsVincula);
 
+    @POST("solicitaUser.php")
+    Call<WsRecibeBitacora> postSolicitarUsuario(@Body WsRecibeBitacora wsSolicita);
+
 
 }

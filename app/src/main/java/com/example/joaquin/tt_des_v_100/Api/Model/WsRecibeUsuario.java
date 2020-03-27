@@ -34,9 +34,14 @@ public class WsRecibeUsuario {
         this.bandera = bandera;
     }
 
-    public WsRecibeUsuario(String id_user, String telefono){
+    public WsRecibeUsuario(String id_user, String telefono, String bandera){
         this.id_user = id_user;
         this.telefono = telefono;
+        this.bandera = bandera;
+    }
+
+    public WsRecibeUsuario(String id_user){
+        this.id_user = id_user;
     }
 
     @SerializedName("Usuario")
@@ -46,6 +51,7 @@ public class WsRecibeUsuario {
     public String Estatus;
 
     public class Usuario{
+
 
         @SerializedName("id_user")
         public String id_user;
@@ -61,6 +67,9 @@ public class WsRecibeUsuario {
 
         @SerializedName("contrasena")
         public String contrasena;
+
+        @SerializedName("status")
+        public String status;
 
     }
 }

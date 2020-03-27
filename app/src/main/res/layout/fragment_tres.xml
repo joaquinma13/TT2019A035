@@ -1,15 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Ui.Fragment.Fragment_uno" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="soy tres"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cardToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true"
+            card_view:cardBackgroundColor="@color/white"
+            card_view:cardElevation="2dp">
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <Spinner
+                    android:id="@+id/spContacto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/back_edit" />
+
+                <TextView
+                    android:id="@+id/txtContacto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/white"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="Contacto"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+
+                <!--<TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Buscar"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"/>
+
+                <EditText
+                    android:id="@+id/edSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:hint="Buscar..."
+                    android:inputType="textCapCharacters"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/imgSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_search" />
+
+                <ImageView
+                    android:id="@+id/imgClose"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="10dp"
+                    android:tint="@color/colorPrimary"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_close" />-->
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+        <fragment
+            android:id="@+id/map"
+            class="com.androidmapsextensions.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/cardToolbar"
+            android:layout_marginBottom="82dp"/>
+
+
+    </RelativeLayout>
+
+    <include
+        layout="@layout/bottom_sheet"/>
+
+</android.support.design.widget.CoordinatorLayout>

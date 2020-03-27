@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.joaquin.tt_des_v_100">
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!-- Permiso para internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- Permisos para ubicación -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" /> <!-- <uses-permission android:name="android.permission.SEND_SMS" /> -->
     <!-- IMEI -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- Camara -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- Camara -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -21,7 +27,6 @@
     <uses-permission android:name="android.cpermission.READ_CALENDAR" /> <!-- Permiso para dictado de voz -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
@@ -32,7 +37,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Ui.Activity.ActRegistro"></activity>
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBG2Bs1ql8wXrFze2Z2NAmapfevt2NcK14" />
+
+        <activity android:name=".Ui.Activity.ActRegistro" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -44,9 +62,6 @@
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@anim/push_left_in" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBG2Bs1ql8wXrFze2Z2NAmapfevt2NcK14" />
 
         <activity
             android:name=".Ui.Activity.ActLogin"
@@ -63,6 +78,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name=".Home_TT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
@@ -80,16 +96,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".Api.backservices.LocationService" />
-
-
         <service android:name=".Api.backservices.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-
-
     </application>
 
 </manifest>

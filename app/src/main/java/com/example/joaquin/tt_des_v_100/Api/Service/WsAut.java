@@ -2,15 +2,19 @@ package com.example.joaquin.tt_des_v_100.Api.Service;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
+import com.example.joaquin.tt_des_v_100.Api.Class.Item;
 import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
 import com.example.joaquin.tt_des_v_100.Api.Class.Permission;
 import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
@@ -22,7 +26,10 @@ import com.example.joaquin.tt_des_v_100.Ui.Activity.Home_TT;
 import com.google.gson.Gson;
 import com.tapadoo.alerter.Alerter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,6 +49,7 @@ public class WsAut {
 
     private SharePreference preference;
 
+
     public WsAut(Activity act, String endpoint) {
         this.act = act;
         apiInterface = APIUtils.getUtils(act, endpoint).create(APIInterface.class);
@@ -55,7 +63,7 @@ public class WsAut {
 
         Utils.cancel = false;
 
-        final Call<Autenticar> call = apiInterface.postAutenticar(new Autenticar(user, pass));
+        final Call<Autenticar> call = apiInterface.postAutenticar(new Autenticar(user, pass, preference.getStrData("token")));
 
         final CustomAlert alert = new CustomAlert(act);
         alert.setTypeProgress("Conectando...", "", "Cancelar");
@@ -117,30 +125,32 @@ public class WsAut {
 
                         } else {
 
-                            alert.close();
+
 
                             preference.saveData("id_user", usuario.id_user);
                             preference.saveData("nombre", usuario.nombre);
 
                             if( saveUser(usuario.id_user, usuario.nombre, usuario.correo, usuario.telefono, usuario.contrasena) > 0 ){
 
-                                Utils.hideKeyboard(act);
-                                final Intent intent = new Intent(act, Home_TT.class);
-                                final ActivityOptions options = ActivityOptions.makeCustomAnimation(act, R.anim.slide_in_act2, R.anim.slide_out_act2);
+                                if ( getContactList() ){
+                                    alert.close();
+                                    Utils.hideKeyboard(act);
+                                    final Intent intent = new Intent(act, Home_TT.class);
+                                    final ActivityOptions options = ActivityOptions.makeCustomAnimation(act, R.anim.slide_in_act2, R.anim.slide_out_act2);
 
-                                new Timer().schedule(new TimerTask() {
-                                    @Override
-                                    public void run() {
-                                        act.runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                act.startActivity(intent, options.toBundle());
-                                                act.finish();
-                                            }
-                                        });
-                                    }
-                                }, 250);
-
+                                    new Timer().schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            act.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    act.startActivity(intent, options.toBundle());
+                                                    act.finish();
+                                                }
+                                            });
+                                        }
+                                    }, 250);
+                                }
                             }
                         }
 
@@ -285,6 +295,45 @@ public class WsAut {
             }
         });
     }*/
+
+    public boolean getContactList() {
+        HashMap<String, String> contactos = new HashMap<String, String>();
+        SQLiteDatabase db;
+        db = act.openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
+        Utils.itemsContact.clear();
+        String[] projeccion = new String[] { ContactsContract.Data.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE };
+        String selectionClause = ContactsContract.Data.MIMETYPE + "='" +
+                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "' AND "
+                + ContactsContract.CommonDataKinds.Phone.NUMBER + " IS NOT NULL";
+        Cursor c = act.getContentResolver().query(
+                ContactsContract.Data.CONTENT_URI,
+                projeccion,
+                selectionClause,
+                null,
+                null);
+        while(c.moveToNext()){
+            String aux = c.getString(1).replace(" ", "");
+            if (aux.length() > 9){
+                contactos.put(aux.substring( aux.length() - 10 ), c.getString(0));
+            }
+
+        }
+        c.close();
+        if (db != null) {
+            ContentValues values = new ContentValues();
+            for (Map.Entry<String, String> entry : contactos.entrySet()) {
+
+                values.put(DataBaseDB.NOMBRE, entry.getValue());
+                values.put(DataBaseDB.TELEFONO, entry.getKey());
+                values.put(DataBaseDB.ESTATUS, "nulo");
+                db.insert(DataBaseDB.TB_CONTACTO, null, values);
+            }
+            db.close();
+        }else{
+            System.out.println("puntero cerrado");
+        }
+        return true;
+    }
 
     private String encrypt(String pass) {
         int idx;

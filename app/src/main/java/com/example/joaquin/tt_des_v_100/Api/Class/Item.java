@@ -84,9 +84,10 @@ public class Item {
     }
 
     // Contacto
-    public Item(String nombre, String telefono) {
+    public Item(String nombre, String telefono, String status) {
         this.nombre = nombre;
         this.telefono = telefono;
+        this.status = status;
     }
 
 

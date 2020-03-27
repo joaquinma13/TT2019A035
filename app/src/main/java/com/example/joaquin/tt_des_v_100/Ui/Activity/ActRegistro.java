@@ -15,10 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Service.WsRecUser;
 import com.example.joaquin.tt_des_v_100.R;
 import com.tapadoo.alerter.Alerter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,6 +50,7 @@ public class ActRegistro extends AppCompatActivity {
     private TextInputEditText editCodigo;
 
     public static String bandera = "0";
+    private SharePreference preference;
 
 
 
@@ -53,6 +58,7 @@ public class ActRegistro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_registro);
+        preference = SharePreference.getInstance(getApplicationContext());
 
         initBinding();
         listeners();
@@ -90,6 +96,9 @@ public class ActRegistro extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (ActRegistro.bandera.equals("0")){
+                    Date date = new Date();
+                    DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+
 
                     boolean flag = true;
 
@@ -115,8 +124,8 @@ public class ActRegistro extends AppCompatActivity {
                     }
 
                     if (flag){
-
-                        new WsRecUser(ActRegistro.this, "master").setUser("22222", editNomUser.getText().toString(), editCorreo.getText().toString(),
+                        preference.saveData("id_user",hourFormat.format(date) + "-" + editNumTel.getText().toString());
+                        new WsRecUser(ActRegistro.this, "master").setUser(preference.getStrData("id_user"), editNomUser.getText().toString(), editCorreo.getText().toString(),
                                 editNumTel.getText().toString(), editTextPassword.getText().toString(), ActRegistro.bandera, relCodigo, scrollForm, titleCodigo);
                         ActRegistro.bandera = "1";
 
@@ -131,7 +140,7 @@ public class ActRegistro extends AppCompatActivity {
 
 
                 }else{
-                    new WsRecUser(ActRegistro.this, "master").setUser("22222", editCodigo.getText().toString(),
+                    new WsRecUser(ActRegistro.this, "master").setUser("11111", editCodigo.getText().toString(),
                             editTextPassword.getText().toString(), ActRegistro.bandera);
                 }
 

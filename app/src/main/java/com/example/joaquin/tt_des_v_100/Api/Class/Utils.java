@@ -11,12 +11,15 @@ import android.text.Spanned;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.ArrayList;
+
 public class Utils {
 
     public static Class _class;
     public static boolean cancel = false;
     public static int hora1 = 7;
     public static int minutos1 = 0;
+    public static ArrayList<Item> itemsContact = new ArrayList<>();
 
     public static void hideKeyboard(@NonNull Activity activity) {
         View view = activity.getCurrentFocus();

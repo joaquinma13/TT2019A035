@@ -114,6 +114,10 @@ public class ActCroquis extends AppCompatActivity implements GoogleApiClient.Con
 
                 System.out.println("me voy!!!!");
 
+                System.out.println("Coordenadas del marquer guardadas");
+                System.out.println("Latitud Guardada: " + newCoordenadas.latitude);
+                System.out.println("Longitud Guardada: " + newCoordenadas.longitude);
+
                 finish();
 
                 /*if (newCoordenadas == null) {

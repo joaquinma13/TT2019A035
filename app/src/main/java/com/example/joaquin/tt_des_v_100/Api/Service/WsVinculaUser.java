@@ -5,17 +5,21 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.widget.RecyclerView;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
 import com.example.joaquin.tt_des_v_100.Api.Class.Item;
 import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
 import com.example.joaquin.tt_des_v_100.Api.Class.Permission;
 import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
+import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeUsuario;
+import com.example.joaquin.tt_des_v_100.R;
 import com.example.joaquin.tt_des_v_100.Ui.Adapter.AdpCuentas;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.Fragment_uno;
 import com.google.gson.Gson;
@@ -39,7 +43,6 @@ public class WsVinculaUser {
     private Permission permission;
     private LocationLibrary ubicacion;
     private SharePreference preference;
-    private ArrayList<Item> contacto = new ArrayList<>();
 
     public WsVinculaUser(Activity act, String endpoint) {
         this.act = act;
@@ -50,9 +53,20 @@ public class WsVinculaUser {
     }
 
 
-    public void setVinculo(final String id_user, final String telefono, final String nombre, final SQLiteDatabase db, final CustomAlert alert) {
-        Fragment_uno.count += 1;
-        final Call<WsRecibeUsuario> call = apiInterface.postVinculaUsuario(new WsRecibeUsuario(id_user, telefono));
+    public void setVinculo(final String id_user, final String telefono, final String bandera, final ImageView imgAction,
+            final FrameLayout cardStatus) {
+        final Call<WsRecibeUsuario> call = apiInterface.postVinculaUsuario(new WsRecibeUsuario(id_user, telefono, bandera));
+        final CustomAlert alert = new CustomAlert(act);
+        alert.setTypeProgress("Vinculando...", "", "Cancelar");
+        alert.setCancelable(false);
+        alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                call.cancel();
+                alert.close();
+            }
+        });
+        alert.show();
         call.enqueue(new Callback<WsRecibeUsuario>() {
             @Override
             public void onResponse(final Call<WsRecibeUsuario> call, Response<WsRecibeUsuario> response) {
@@ -67,51 +81,38 @@ public class WsVinculaUser {
 
 
                         if (!vinUser.Estatus.toUpperCase(Locale.ENGLISH).equals("OK")) {
-
-                            Fragment_uno.error += 1;
-
-                            if ( Fragment_uno.count == Fragment_uno.selectedContact.size() ){
-
-                                alert.close();
-                                db.close();
-
-                            }
-
-                        } else {
-                            if ( saveUser(usuario.id_user, nombre, usuario.telefono,db) == 0  )
-                                Fragment_uno.error += 1;
-
-                            if ( Fragment_uno.count == Fragment_uno.selectedContact.size() ){
-
-                                Cursor c = null;
-
-                                contacto.clear();
-                                System.out.println("Tam: " + contacto.size());
-                                c = db.rawQuery("SELECT " + DataBaseDB.NOMBRE + ", " +
-                                        DataBaseDB.TELEFONO + " FROM " + DataBaseDB.TB_CONTACTO, null);
-
-                                if (c.moveToFirst()) {
-                                    do {
-                                        System.out.println(c.getString(0));
-                                        contacto.add(new Item(
-                                                        c.getString(0),
-                                                        c.getString(1),
-                                                        true
-                                                )
-                                        );
-                                    } while (c.moveToNext());
-
-                                } else {
-                                    System.out.println("No existen registros!!!");
+                            alert.setTypeError("Error", vinUser.Estatus, "Cancelar", "Volver a intentar");
+                            alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    call.cancel();
+                                    alert.close();
                                 }
-                                recyclerAdapter = new AdpCuentas(act, contacto);
-                                recyclerContact.setAdapter(recyclerAdapter);
-
-                                alert.close();
-                                c.close();
-                                db.close();
-
+                            });
+                            alert.getBtnRight().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alert.close();
+                                    setVinculo(id_user, telefono, bandera, imgAction, cardStatus);
+                                }
+                            });
+                        } else {
+                            saveUser(usuario.id_user, usuario.telefono, usuario.status);
+                            if(usuario.status.equals("nulo")){
+                                cardStatus.setBackgroundColor(Color.rgb(165, 165, 165));
+                                //holder.imgAction.setTag(R.drawable.ic_camera);
+                            }else if(usuario.status.equals("Activo")){
+                                cardStatus.setBackgroundColor(Color.rgb(25, 170, 57));
+                                imgAction.setImageResource(R.drawable.ic_remove_circle_outline_black_24dp);
+                            }else if(usuario.status.equals("Pendiente1")){
+                                cardStatus.setBackgroundColor(Color.rgb(209, 199, 69));
+                                imgAction.setImageResource(R.drawable.ic_not_interested_black_24dp);
+                            }else if(usuario.status.equals("Pendiente2")){
+                                cardStatus.setBackgroundColor(Color.rgb(255, 117, 20));
+                                imgAction.setImageResource(R.drawable.ic_remove_circle_outline_black_24dp);
                             }
+                            alert.close();
+
 
                         }
 
@@ -125,10 +126,7 @@ public class WsVinculaUser {
             @Override
             public void onFailure(Call<WsRecibeUsuario> call, Throwable t) {
                 call.cancel();
-
-                alert.close();
-
-                /*alert.setTypeError("ON FAILURE", t.toString(), "Cancelar", "Volver a intentar");
+                alert.setTypeError("ON FAILURE", t.toString(), "Cancelar", "Volver a intentar");
                 alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -139,25 +137,40 @@ public class WsVinculaUser {
                     @Override
                     public void onClick(View v) {
                         alert.close();
-                        setVinculo(id_user, telefono,nombre,db,alert,act);
+                        setVinculo(id_user, telefono, bandera, imgAction, cardStatus);
                     }
-                });*/
+                });
             }
         });
     }
 
-    private int saveUser(String id_user, String nombre, String telefono,SQLiteDatabase db) {
+    private int saveUser(String id_user, String telefono, String status) {
+        System.out.println("Estado: " + status);
         int idSave = 0;
-        if (db != null) {
+        SQLiteDatabase db = null;
+        db = act.openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
+        ContentValues values = new ContentValues();
+        values.put(DataBaseDB.ID_USER, id_user);
+        values.put(DataBaseDB.ESTATUS, status);
+        db.update(DataBaseDB.TB_CONTACTO, values,
+                DataBaseDB.TELEFONO + "='" + telefono  + "'", null);
+
+        /*try {
+            db = act.openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
             ContentValues values = new ContentValues();
-
             values.put(DataBaseDB.ID_USER, id_user);
-            values.put(DataBaseDB.NOMBRE, nombre);
-            values.put(DataBaseDB.TELEFONO, telefono);
+            values.put(DataBaseDB.ESTATUS, status);
+            idSave = db.update(DataBaseDB.TB_CONTACTO, values,
+                    DataBaseDB.TELEFONO + "='" + telefono  + "'", null);
 
-            idSave = (int) db.insert(DataBaseDB.TB_CONTACTO, null, values);
+            System.out.println("idSave: " + idSave);
 
-        }
+        } catch (Exception ex) {
+            Log.e(TAG, "getCorreoPreregistro: " + ex.toString());
+        } finally {
+            Utils.close(db);
+            Utils.freeMemory();
+        }*/
         return idSave;
     }
 

@@ -56,7 +56,6 @@ public class Fragment_uno extends Fragment {
     private FloatingActionButton btnGetContact;
     public static RecyclerView recyclerContact;
     public static AdpCuentas recyclerAdapter;
-    private ArrayList<Item> contacto = new ArrayList<>();
     public static ArrayList<Item> itemsContact = new ArrayList<>();
     public static ArrayList<String> selectedContact = new ArrayList<>();
     public static ArrayList<String> selectedPhone = new ArrayList<>();
@@ -86,7 +85,7 @@ public class Fragment_uno extends Fragment {
             @Override
             public void run() {
                 getContact();
-                getContactList();
+                //getContactList();
             }
         }).start();
         btnGetContact = getActivity().findViewById(R.id.btnGetContact);
@@ -97,7 +96,7 @@ public class Fragment_uno extends Fragment {
         recyclerContact.setHasFixedSize(true);
         recyclerContact.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        recyclerAdapter = new AdpCuentas(getActivity(), contacto);
+        recyclerAdapter = new AdpCuentas(getActivity(), Utils.itemsContact);
         recyclerContact.setAdapter(recyclerAdapter);
 
         btnGetContact.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +126,7 @@ public class Fragment_uno extends Fragment {
 
                     cb.setId(i);
 
-                    for(Item a : contacto){
+                    for(Item a : Utils.itemsContact){
 
                         if (a.getNombre().equals(itemsContact.get(i).getNombre()))
                             cb.setEnabled(false);
@@ -150,8 +149,8 @@ public class Fragment_uno extends Fragment {
                                 });
                                 relAlerta.setVisibility(View.GONE);
                                 alert.show();
-                                /*
-                                System.out.println("nombre: " + compoundButton.getText().toString());
+
+                               /* System.out.println("nombre: " + compoundButton.getText().toString());
                                 System.out.println("telefono: " + itemsContact.get(compoundButton.getId()).getTelefono().replace(" ",""));
                                 //System.out.println("LONGITUD: " + itemsContact.get(compoundButton.getId()).getTelefono().replace(" ","").substring(itemsContact.get(compoundButton.getId()).getTelefono().replace(" ","").length() - 10)  );
                                 selectedContact.add(compoundButton.getText().toString());
@@ -202,7 +201,7 @@ public class Fragment_uno extends Fragment {
                         try {
                             db = getContext().openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
                             for (int i = 0; i < selectedContact.size(); i++) {
-                                new WsVinculaUser(getActivity(), "master").setVinculo(preference.getStrData("id_user"), selectedPhone.get(i), selectedContact.get(i),db,alert);
+                                //new WsVinculaUser(getActivity(), "master").setVinculo(preference.getStrData("id_user"), selectedPhone.get(i), selectedContact.get(i),db,alert);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -233,7 +232,7 @@ public class Fragment_uno extends Fragment {
         });
 
 
-        recyclerContact.addOnItemTouchListener(new Recycler(getActivity(), recyclerContact, new Recycler.ClickListener() {
+        /*recyclerContact.addOnItemTouchListener(new Recycler(getActivity(), recyclerContact, new Recycler.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 System.out.println("Esto es onClick");
@@ -243,38 +242,9 @@ public class Fragment_uno extends Fragment {
             public void onLongClick(View view, int position) {
                 System.out.println("Esto es onLongClick");
             }
-        }));
+        }));*/
     }
 
-
-    public void putElements(){
-        SQLiteDatabase db = null;
-
-        try {
-            db = getContext().openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
-
-            ContentValues values = new ContentValues();
-            values.put(DataBaseDB.NOMBRE, "Luis");
-            values.put(DataBaseDB.TELEFONO, "11111111");
-            db.insert(DataBaseDB.TB_CONTACTO, null, values);
-
-            values.clear();
-
-            values.put(DataBaseDB.NOMBRE, "Juan");
-            values.put(DataBaseDB.TELEFONO, "22222222");
-            db.insert(DataBaseDB.TB_CONTACTO, null, values);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (db != null) {
-                db.close();
-                db = null;
-            }
-            Utils.freeMemory();
-        }
-    }
 
     public void getContact(){
         SQLiteDatabase db = null;
@@ -283,16 +253,14 @@ public class Fragment_uno extends Fragment {
         try {
             db = getContext().openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
             c = db.rawQuery("SELECT " + DataBaseDB.NOMBRE + ", " +
-                    DataBaseDB.TELEFONO + " FROM " + DataBaseDB.TB_CONTACTO, null);
+                    DataBaseDB.TELEFONO + ", " +
+                    DataBaseDB.ESTATUS +
+                    " FROM " + DataBaseDB.TB_CONTACTO +
+                    " ORDER BY " + DataBaseDB.NOMBRE, null);
 
             if (c.moveToFirst()) {
                 do {
-                    contacto.add(new Item(
-                            c.getString(0),
-                            c.getString(1),
-                            true
-                            )
-                    );
+                    Utils.itemsContact.add(new Item(c.getString(0),c.getString(1),c.getString(2)));
                 } while (c.moveToNext());
 
             } else {
@@ -307,44 +275,4 @@ public class Fragment_uno extends Fragment {
             Utils.freeMemory();
         }
     }
-
-
-
-    private void getContactList() {
-        itemsContact.clear();
-        ContentResolver cr = getContext().getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null);
-
-        if ((cur != null ? cur.getCount() : 0) > 0) {
-            while (cur != null && cur.moveToNext()) {
-                String id = cur.getString(
-                        cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-
-                if (cur.getInt(cur.getColumnIndex(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Cursor pCur = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
-
-                    while (pCur.moveToNext()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(
-                                ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        itemsContact.add(new Item(name, phoneNo));
-                        break;
-                    }
-                    pCur.close();
-                }
-            }
-        }
-        if(cur!=null){
-            cur.close();
-        }
-    }
-
-
 }

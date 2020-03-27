@@ -28,18 +28,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         );
         Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_   NAME_USUARIO");
 
+
+
         //---------------------------------- TB_CONTACTO ------------------------------------
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_CONTACTO + "(" +
                 DataBaseDB.ID_USER + " TEXT, " +        // 0
-                DataBaseDB.NOMBRE + " TEXT, " +        // 0
-                DataBaseDB.SENAL + " TEXT, " +        // 0
-                DataBaseDB.BATERIA + " TEXT, " +        // 0
-                DataBaseDB.IMEI + " TEXT, " +        // 0
-                DataBaseDB.MODELO + " TEXT, " +        // 0
-                DataBaseDB.LATITUD + " TEXT, " +        // 0
-                DataBaseDB.LONGITUD + " TEXT, " +        // 0
-                DataBaseDB.TELEFONO + " TEXT, " +        // 0
-                DataBaseDB.FECHA+ " TEXT); "         // 1
+                DataBaseDB.NOMBRE + " TEXT, " +         // 1
+                DataBaseDB.SENAL + " TEXT, " +          // 2
+                DataBaseDB.BATERIA + " TEXT, " +        // 3
+                DataBaseDB.IMEI + " TEXT, " +           // 4
+                DataBaseDB.MODELO + " TEXT, " +         // 5
+                DataBaseDB.LATITUD + " TEXT, " +        // 6
+                DataBaseDB.LONGITUD + " TEXT, " +       // 7
+                DataBaseDB.TELEFONO + " TEXT, " +       // 8
+                DataBaseDB.ESTATUS + " TEXT, " +        // 9
+                DataBaseDB.FECHA+ " TEXT); "            // 10
         );
         Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_CONTACTO");
 

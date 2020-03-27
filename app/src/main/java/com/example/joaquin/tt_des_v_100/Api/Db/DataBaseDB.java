@@ -22,6 +22,7 @@ public class DataBaseDB {
     public static String CORREO_ELECTRONICO = "correo_electronico";
     public static String TELEFONO = "telefono";
     public static String ID_USER = "id_user";
+    public static String ESTATUS = "estatus";
 
     // TB_NAME_CONTACTO
 
