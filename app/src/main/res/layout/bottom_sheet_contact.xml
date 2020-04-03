@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottom_sheet"
+    android:id="@+id/bottom_sheet_contact"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#00FFFFFF"
+    android:background="@color/white"
     android:orientation="vertical"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="82dp"
+    app:behavior_peekHeight="0dp"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <RelativeLayout
@@ -20,25 +20,15 @@
         android:padding="5dp">
 
 
-        <TextView
-            android:id="@+id/labelNombreContacto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Contacto"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtNombre"
+            android:id="@+id/txtNombreContact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="3dp"
-            android:layout_toEndOf="@+id/labelNombreContacto"
+            android:gravity="center"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -46,7 +36,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="Gerardo Perez Solosano Perez Bautistaa"
+            android:text="Nombre"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -55,23 +45,12 @@
             android:id="@+id/viewSeparator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/txtNombre"
+            android:layout_below="@+id/txtNombreContact"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:background="@color/white" />
-
-        <TextView
-            android:id="@+id/txtSite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewSeparator"
-            android:layout_marginStart="10dp"
-            android:text="cr_dito"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
 
 
 
@@ -79,6 +58,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/a"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headerSheet"
@@ -100,7 +80,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:contentDescription="description"
-                android:src="@drawable/ic_date_black_24dp" />
+                android:src="@drawable/ic_smartphone_black_24dp" />
 
             <TextView
                 android:id="@+id/labFecha"
@@ -109,19 +89,19 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/iconFecha"
-                android:text="Hora: "
+                android:text="Numero: "
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/labelFecha"
+                android:id="@+id/labelNumero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/labFecha"
-                android:text="Fecha"
+                android:text="Numero"
                 android:textSize="16sp"/>
 
         </RelativeLayout>
@@ -141,7 +121,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:contentDescription="description"
-                android:src="@drawable/ic_access_time_black_24dp" />
+                android:src="@drawable/ic_create_black_24dp" />
 
             <TextView
                 android:id="@+id/labHora"
@@ -150,110 +130,41 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/iconHora"
-                android:text="Hora: "
+                android:text="Estatus: "
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/labelHora"
+                android:id="@+id/labelEstatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/labHora"
-                android:text="Hora"
+                android:text="status"
                 android:textSize="16sp"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/contentBateria"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iconBateria"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:contentDescription="description"
-                android:src="@drawable/ic_battery_std_black_24dp" />
-
-            <TextView
-                android:id="@+id/labBateria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/iconBateria"
-                android:text="Bateria: "
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/labelBateria"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toEndOf="@+id/labBateria"
-                android:text="Bateria"
-                android:textSize="16sp"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iconSena"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:contentDescription="description"
-                android:src="@drawable/ic_signal_cellular_4_bar_black_24dp" />
-
-
-            <TextView
-                android:id="@+id/labContacto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/iconSena"
-                android:text="Señal: "
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/labelSenal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
-                android:maxLines="2"
-                android:layout_toEndOf="@+id/labContacto"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:text="señal" />
-
-
 
         </RelativeLayout>
 
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/a"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/back_enter"
+        android:text="Confirmar"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:visibility="visible" />
 
 
 </RelativeLayout>

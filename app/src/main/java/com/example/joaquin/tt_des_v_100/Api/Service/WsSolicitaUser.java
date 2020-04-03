@@ -21,7 +21,7 @@ import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeBitacora;
 import com.example.joaquin.tt_des_v_100.R;
-import com.example.joaquin.tt_des_v_100.Ui.Fragment.Fragment_tres;
+import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgMap;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -110,17 +110,19 @@ public class WsSolicitaUser {
                                 }
                             });
                         } else {
+                            System.out.println("esto 1");
                             if ( updateUser(usuario.id_user, usuario.senal, usuario.bateria, usuario.imei, usuario.modelo,
                                     usuario.latitud, usuario.longitud, usuario.fecha, usuario.nombre, usuario.telefono) > 0){
+                                System.out.println("esto 3");
                                 alert.close();
 
                                 View v = act.getLayoutInflater().inflate(R.layout.layout_marker, null);
                                 ImageView image = v.findViewById(R.id.place);
                                 image.setBackground(act.getResources().getDrawable(R.drawable.ic_person_pin_black_24dp));
-                                Fragment_tres.Map.clear();
+                                FrgMap.Map.clear();
                                 LatLng point = new LatLng(Double.parseDouble(usuario.latitud), Double.parseDouble(usuario.longitud));
-                                Fragment_tres.Map.addMarker(new MarkerOptions().position(point).title(usuario.nombre).icon(BitmapDescriptorFactory.fromBitmap(loadBitmapFromView(v))));
-                                Fragment_tres.Map.moveCamera(CameraUpdateFactory.newLatLng(point));
+                                FrgMap.Map.addMarker(new MarkerOptions().position(point).title(usuario.nombre).icon(BitmapDescriptorFactory.fromBitmap(loadBitmapFromView(v))));
+                                FrgMap.Map.moveCamera(CameraUpdateFactory.newLatLng(point));
                                 txtNombre.setText(usuario.nombre);
                                 txtSite.setText("Latitud: " + usuario.latitud + " Longitud: " + usuario.longitud);
                                 labelFecha.setText(usuario.fecha.split(" ")[0]);
@@ -179,6 +181,7 @@ public class WsSolicitaUser {
 
     private int updateUser(String id_user, String senal, String bateria, String imei, String modelo,
                            String latitud, String longitud, String fecha, String nombre, String telefono) {
+        System.out.println("esto 2");
 
 
         int idSave = 0;
@@ -196,7 +199,7 @@ public class WsSolicitaUser {
             values.put(DataBaseDB.NOMBRE, nombre);
             values.put(DataBaseDB.TELEFONO, telefono);
 
-            idSave = db.update(DataBaseDB.TB_CONTACTO, values,
+            idSave = (int) db.update(DataBaseDB.TB_CONTACTO, values,
                     DataBaseDB.ID_USER + "='" + id_user  + "'", null);
 
             db.close();

@@ -11,15 +11,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,7 +25,6 @@ import com.androidmapsextensions.GoogleMap;
 import com.androidmapsextensions.Marker;
 import com.androidmapsextensions.OnMapReadyCallback;
 import com.androidmapsextensions.SupportMapFragment;
-import com.example.joaquin.tt_des_v_100.Api.Class.Item;
 import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
 import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
@@ -47,7 +43,7 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 
 
-public class Fragment_tres extends Fragment  implements OnMapReadyCallback {
+public class FrgMap extends Fragment  implements OnMapReadyCallback {
 
     private SupportMapFragment mapaG;
     public static GoogleMap Map;
@@ -92,7 +88,7 @@ public class Fragment_tres extends Fragment  implements OnMapReadyCallback {
 
     private void initControls() {
         getContact();
-        Fragment_tres.MyAdapter myAdapter = new Fragment_tres.MyAdapter(getActivity(), arrayContacto);
+        FrgMap.MyAdapter myAdapter = new FrgMap.MyAdapter(getActivity(), arrayContacto);
         spContacto.setAdapter(myAdapter);
     }
 
@@ -102,11 +98,11 @@ public class Fragment_tres extends Fragment  implements OnMapReadyCallback {
 
         LatLng myUbicacion = ubicacion.getLocation().getUbicacion();
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.map_style));
-        Fragment_tres.Map = googleMap;
-        Fragment_tres.Map.clear();
-        Fragment_tres.Map.setMyLocationEnabled(true);
-        Fragment_tres.Map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myUbicacion.latitude, myUbicacion.longitude), 18));
-        Fragment_tres.Map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        FrgMap.Map = googleMap;
+        FrgMap.Map.clear();
+        FrgMap.Map.setMyLocationEnabled(true);
+        FrgMap.Map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myUbicacion.latitude, myUbicacion.longitude), 18));
+        FrgMap.Map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng position) {
                 //sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); esconder el bottom sheet
@@ -122,6 +118,18 @@ public class Fragment_tres extends Fragment  implements OnMapReadyCallback {
                 return true;
             }
         });
+
+
+        Map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+
+                System.out.println( "Center======================== taget: " + Map.getCameraPosition().target);
+
+            }
+        });
+
+
 
     }
 
@@ -141,8 +149,8 @@ public class Fragment_tres extends Fragment  implements OnMapReadyCallback {
 
         bottom_sheet = view.findViewById(R.id.bottom_sheet);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-        spContacto = view.findViewById(R.id.spContacto);
 
+        spContacto = view.findViewById(R.id.spContacto);
         txtNombre = view.findViewById(R.id.txtNombre);
         txtSite = view.findViewById(R.id.txtSite);
         labelFecha = view.findViewById(R.id.labelFecha);

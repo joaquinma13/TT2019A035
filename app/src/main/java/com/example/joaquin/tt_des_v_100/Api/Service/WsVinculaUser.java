@@ -20,19 +20,15 @@ import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeUsuario;
 import com.example.joaquin.tt_des_v_100.R;
-import com.example.joaquin.tt_des_v_100.Ui.Adapter.AdpCuentas;
-import com.example.joaquin.tt_des_v_100.Ui.Fragment.Fragment_uno;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.joaquin.tt_des_v_100.Ui.Fragment.Fragment_uno.recyclerAdapter;
-import static com.example.joaquin.tt_des_v_100.Ui.Fragment.Fragment_uno.recyclerContact;
+import static android.content.ContentValues.TAG;
 
 public class WsVinculaUser {
 
@@ -53,8 +49,7 @@ public class WsVinculaUser {
     }
 
 
-    public void setVinculo(final String id_user, final String telefono, final String bandera, final ImageView imgAction,
-            final FrameLayout cardStatus) {
+    public void setVinculo(final String id_user, final String telefono, final String bandera) {
         final Call<WsRecibeUsuario> call = apiInterface.postVinculaUsuario(new WsRecibeUsuario(id_user, telefono, bandera));
         final CustomAlert alert = new CustomAlert(act);
         alert.setTypeProgress("Vinculando...", "", "Cancelar");
@@ -93,34 +88,18 @@ public class WsVinculaUser {
                                 @Override
                                 public void onClick(View v) {
                                     alert.close();
-                                    setVinculo(id_user, telefono, bandera, imgAction, cardStatus);
+                                    setVinculo(id_user, telefono, bandera);
                                 }
                             });
                         } else {
-                            saveUser(usuario.id_user, usuario.telefono, usuario.status);
-                            if(usuario.status.equals("nulo")){
-                                cardStatus.setBackgroundColor(Color.rgb(165, 165, 165));
-                                //holder.imgAction.setTag(R.drawable.ic_camera);
-                            }else if(usuario.status.equals("Activo")){
-                                cardStatus.setBackgroundColor(Color.rgb(25, 170, 57));
-                                imgAction.setImageResource(R.drawable.ic_remove_circle_outline_black_24dp);
-                            }else if(usuario.status.equals("Pendiente1")){
-                                cardStatus.setBackgroundColor(Color.rgb(209, 199, 69));
-                                imgAction.setImageResource(R.drawable.ic_not_interested_black_24dp);
-                            }else if(usuario.status.equals("Pendiente2")){
-                                cardStatus.setBackgroundColor(Color.rgb(255, 117, 20));
-                                imgAction.setImageResource(R.drawable.ic_remove_circle_outline_black_24dp);
+                            if(saveUser(usuario.id_user, usuario.telefono, usuario.status) > 0){
+                                getContact();
+                                alert.close();
                             }
-                            alert.close();
-
-
                         }
 
                     }
                 }
-
-
-
             }
 
             @Override
@@ -137,7 +116,7 @@ public class WsVinculaUser {
                     @Override
                     public void onClick(View v) {
                         alert.close();
-                        setVinculo(id_user, telefono, bandera, imgAction, cardStatus);
+                        setVinculo(id_user, telefono, bandera);
                     }
                 });
             }
@@ -152,26 +131,40 @@ public class WsVinculaUser {
         ContentValues values = new ContentValues();
         values.put(DataBaseDB.ID_USER, id_user);
         values.put(DataBaseDB.ESTATUS, status);
-        db.update(DataBaseDB.TB_CONTACTO, values,
+        idSave = (int) db.update(DataBaseDB.TB_CONTACTO, values,
                 DataBaseDB.TELEFONO + "='" + telefono  + "'", null);
+        return idSave;
+    }
 
-        /*try {
+    public void getContact(){
+        Utils.itemsContact.clear();
+        SQLiteDatabase db = null;
+        Cursor c = null;
+
+        try {
             db = act.openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
-            ContentValues values = new ContentValues();
-            values.put(DataBaseDB.ID_USER, id_user);
-            values.put(DataBaseDB.ESTATUS, status);
-            idSave = db.update(DataBaseDB.TB_CONTACTO, values,
-                    DataBaseDB.TELEFONO + "='" + telefono  + "'", null);
+            c = db.rawQuery("SELECT " + DataBaseDB.NOMBRE + ", " +
+                    DataBaseDB.TELEFONO + ", " +
+                    DataBaseDB.ESTATUS +
+                    " FROM " + DataBaseDB.TB_CONTACTO +
+                    " ORDER BY " + DataBaseDB.NOMBRE, null);
 
-            System.out.println("idSave: " + idSave);
+            if (c.moveToFirst()) {
+                do {
+                    Utils.itemsContact.add(new Item(c.getString(0),c.getString(1),c.getString(2)));
+                } while (c.moveToNext());
+
+            } else {
+                System.out.println("No existen registros!!!");
+            }
 
         } catch (Exception ex) {
             Log.e(TAG, "getCorreoPreregistro: " + ex.toString());
         } finally {
+            Utils.close(c);
             Utils.close(db);
             Utils.freeMemory();
-        }*/
-        return idSave;
+        }
     }
 
 }

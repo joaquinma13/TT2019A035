@@ -43,11 +43,21 @@ public class AdpCuentas extends RecyclerView.Adapter<AdpCuentas.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-        final Item cuenta = (Item) listCuentas.get(position);
-
+        Item cuenta = (Item)listCuentas.get(position);
         holder.textCardContacto.setText(cuenta.getNombre());
 
-        if(cuenta.getStatus().equals("nulo")){
+        /*if(cuenta.getStatus().equals("nulo")){
+            holder.cardStatus.setBackgroundColor(Color.rgb(165, 165, 165));
+        }else if(cuenta.getStatus().equals("Activo")){
+            holder.cardStatus.setBackgroundColor(Color.rgb(25, 170, 57));
+        }else if(cuenta.getStatus().equals("Pendiente1")){
+            holder.cardStatus.setBackgroundColor(Color.rgb(209, 199, 69));
+        }else if(cuenta.getStatus().equals("Pendiente2")){
+            holder.cardStatus.setBackgroundColor(Color.rgb(255, 117, 20));
+        }*/
+
+
+        /*if(cuenta.getStatus().equals("nulo")){
             holder.cardStatus.setBackgroundColor(Color.rgb(165, 165, 165));
             //holder.imgAction.setTag(R.drawable.ic_camera);
         }else if(cuenta.getStatus().equals("Activo")){
@@ -62,9 +72,9 @@ public class AdpCuentas extends RecyclerView.Adapter<AdpCuentas.ViewHolder> {
             holder.cardStatus.setBackgroundColor(Color.rgb(255, 117, 20));
             //holder.imgAction.setTag(R.drawable.ic_remove_circle_outline_black_24dp);
             holder.imgAction.setImageResource(R.drawable.ic_remove_circle_outline_black_24dp);
-        }
+        }*/
 
-        holder.imgAction.setOnClickListener(new View.OnClickListener() {
+        /*holder.imgAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //System.out.println("nombre: " + Utils.itemsContact.get(holder.getAdapterPosition()).getNombre() + " numero: " + Utils.itemsContact.get(holder.getAdapterPosition()).getTelefono() + " status: " + cuenta.getStatus());
@@ -106,7 +116,7 @@ public class AdpCuentas extends RecyclerView.Adapter<AdpCuentas.ViewHolder> {
                 });
                 alert.show();
             }
-        });
+        });*/
 
     }
 
@@ -120,18 +130,15 @@ public class AdpCuentas extends RecyclerView.Adapter<AdpCuentas.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textCardContacto;
-        private ImageView imgAction;
-        private FrameLayout cardStatus;
+        Item Cuenta;
 
 
         ViewHolder(View itemView) {
             super(itemView);
             textCardContacto = itemView.findViewById(R.id.textCardContacto);
-            imgAction = itemView.findViewById(R.id.imgAction);
-            cardStatus = itemView.findViewById(R.id.cardStatus);
-
 
         }
+
     }
 
 }

@@ -8,7 +8,10 @@ import java.util.List;
 public class WsRecibeBitacora {
 
     private String id_user;
+    private String id_zona;
     private String senal;
+    private String nombre;
+    private String radio;
     private String bateria;
     private String imei;
     private String modelo;
@@ -18,6 +21,15 @@ public class WsRecibeBitacora {
 
     public WsRecibeBitacora (String id_user){
         this.id_user = id_user;
+    }
+
+    public WsRecibeBitacora(String id_user, String id_zona, String nombre, String latitud, String longitud, String radio){
+        this.id_user = id_user;
+        this.id_zona = id_zona;
+        this.nombre = nombre;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.radio = radio;
     }
 
     public WsRecibeBitacora(String id_user, String senal, String bateria, String imei, String modelo, String latitud,

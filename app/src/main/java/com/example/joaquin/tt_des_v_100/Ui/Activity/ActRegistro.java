@@ -140,7 +140,7 @@ public class ActRegistro extends AppCompatActivity {
 
 
                 }else{
-                    new WsRecUser(ActRegistro.this, "master").setUser("11111", editCodigo.getText().toString(),
+                    new WsRecUser(ActRegistro.this, "master").setUser(preference.getStrData("id_user"), editCodigo.getText().toString(),
                             editTextPassword.getText().toString(), ActRegistro.bandera);
                 }
 

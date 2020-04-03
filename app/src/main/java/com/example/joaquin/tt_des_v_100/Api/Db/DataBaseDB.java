@@ -25,7 +25,6 @@ public class DataBaseDB {
     public static String ESTATUS = "estatus";
 
     // TB_NAME_CONTACTO
-
     public static String SENAL = "senal";
     public static String BATERIA = "bateria";
     public static String IMEI = "imei";
@@ -34,7 +33,9 @@ public class DataBaseDB {
     public static String LATITUD = "latitud";
     public static String LONGITUD = "longitud";
 
-    // TB_BITACORA
+    // TB_ZONAS
+    public static String ID_ZONA = "id_zona";
+    public static String RADIO = "radio";
 
     /*private String id_user;
     private String senal;

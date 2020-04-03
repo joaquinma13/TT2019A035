@@ -20,6 +20,13 @@ public class Utils {
     public static int hora1 = 7;
     public static int minutos1 = 0;
     public static ArrayList<Item> itemsContact = new ArrayList<>();
+    public static LocationLibrary ubicacion;
+    private Activity act;
+
+    public Utils(Activity act) {
+        this.act = act;
+        ubicacion = new LocationLibrary(act, "Utils");
+    }
 
     public static void hideKeyboard(@NonNull Activity activity) {
         View view = activity.getCurrentFocus();

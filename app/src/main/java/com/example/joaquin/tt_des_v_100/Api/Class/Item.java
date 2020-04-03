@@ -56,32 +56,9 @@ public class Item {
 
     private boolean exist;
     private String id;
+    private String radio;
 
 
-    public Item() {
-    }
-
-    // id
-    public Item(boolean exist, String id) {
-        this.exist = exist;
-        this.id = id;
-    }
-
-
-    // Contacto
-    public Item(String nombre, String telefono, boolean state) {
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.state = state;
-    }
-
-    // Contacto
-    public Item(String nombre, boolean state, Double latitud, Double longitud) {
-        this.nombre = nombre;
-        this.state = state;
-        this.latitud = latitud;
-        this.longitud = longitud;
-    }
 
     // Contacto
     public Item(String nombre, String telefono, String status) {
@@ -90,114 +67,16 @@ public class Item {
         this.status = status;
     }
 
-
-    // Cuentas
-    public Item(String status, String nombre, String cliente, String producto, String credito, String no_cliente,
-                String dte_ag, String hour_ag, double latitud, double longitud, String tipoCuenta) {
-        this.status = status;
+    // Zona
+    public Item(String id, String nombre, Double latitud, Double longitud, String radio) {
+        this.id = id;
         this.nombre = nombre;
-        this.cliente = cliente;
-        this.producto = producto;
-        this.credito = credito;
-        this.no_cliente = no_cliente;
-        this.dte_ag = dte_ag;
-        this.hour_ag = hour_ag;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.tipoCuenta = tipoCuenta;
-    }
-
-    //Historial
-    public Item(String status, String nombre, String cliente, String producto, String credito, String no_cliente,
-                String dte_ag, String hour_ag, double latitud, double longitud, String tipoCuenta, String estrellas, int pago, String comentario) {
-        this.status = status;
-        this.nombre = nombre;
-        this.cliente = cliente;
-        this.producto = producto;
-        this.credito = credito;
-        this.no_cliente = no_cliente;
-        this.dte_ag = dte_ag;
-        this.hour_ag = hour_ag;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.tipoCuenta = tipoCuenta;
-        this.estrellas = estrellas;
-        this.pago = pago;
-        this.comentario = comentario;
-    }
-
-    /*********************************** DIRECCION ADICIONAL **************************************/
-    public Item(String cp, String ciudad, String estado, String municipio, String colonia, String calle,
-                String numInt, String numExt, String hora1, String hora2, String diasContacto, String parentesco, String de_quien) {
-        this.cp = cp;
-        this.ciudad = ciudad;
-        this.estado = estado;
-        this.municipio = municipio;
-        this.colonia = colonia;
-        this.calle = calle;
-        this.numInt = numInt;
-        this.numExt = numExt;
-        this.hora1 = hora1;
-        this.hora2 = hora2;
-        if (diasContacto.contains("1") || diasContacto.contains("0"))
-            this.diasContacto = diasContacto;
-        else
-            this.diasContacto = "1111100";
-
-        this.parentesco = parentesco;
-        this.de_quien = de_quien;
+        this.radio = radio;
     }
 
 
-    /*********************************** TELEFONO ADICIONAL ***************************************/
-    public Item(String tipo, String diasContacto, String lada, String telefono, String hora1,
-                String hora2, String parentesco, String ext, String de_quien) {
-
-        this.tipo = tipo;
-        if (diasContacto.contains("1") || diasContacto.contains("0"))
-            this.diasContacto = diasContacto;
-        else
-            this.diasContacto = "1111100";
-        this.lada = lada;
-        this.telefono = telefono;
-        this.hora1 = hora1;
-        this.hora2 = hora2;
-        this.parentesco = parentesco;
-        this.ext = ext;
-        this.de_quien = de_quien;
-    }
-
-    public Item(String tipoEmail, String email, String parentesco, String de_quien) {
-        this.tipoEmail = tipoEmail;
-        this.Email = email;
-        this.parentesco = parentesco;
-        this.de_quien = de_quien;
-    }
-
-    /*********************************** EMAIL ADICIONAL ***************************************/
-
-
-
-    // Ruta
-    public Item(String EMC, int iEMC) {
-        this.EMC = EMC;
-        this.iEMC = iEMC;
-    }
-
-    // Markers
-    public Item(String nombre, String cliente, String producto, String credito, String no_cliente,
-                double latitud, double longitud, int index, double distancia, String status) {
-        this.status = status;
-        this.nombre = nombre;
-        this.cliente = cliente;
-        this.producto = producto;
-        this.credito = credito;
-        this.no_cliente = no_cliente;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.index = index;
-        this.distancia = distancia;
-    }
 
     public String getStatus() {
         return status;

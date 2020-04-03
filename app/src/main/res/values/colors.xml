@@ -20,6 +20,9 @@
     <color name="iron">#CCCCCC</color>
     <color name="red">#ff5f5c</color>
 
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+
 
     <color name="transparente">#02ffffff</color>
     <color name="blackMask">#e30d0c0c</color>

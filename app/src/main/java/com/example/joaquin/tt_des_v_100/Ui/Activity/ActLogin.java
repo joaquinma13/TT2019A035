@@ -277,7 +277,9 @@ public class ActLogin extends AppCompatActivity {
             if (c.moveToFirst()) {
 
                 System.out.println("hay session");
-
+                System.out.println("nombre usuario: " + c.getString(0));
+                System.out.println("nombre usuario: " + c.getString(1));
+                System.out.println("nombre usuario: " + c.getString(2));
 
                 final Intent intent = new Intent(ActLogin.this, Home_TT.class);
                 //final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
@@ -285,6 +287,8 @@ public class ActLogin extends AppCompatActivity {
                 finish();
 
             }else{
+
+
 
             }
 

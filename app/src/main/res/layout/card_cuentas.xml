@@ -7,13 +7,6 @@
 
     app:cardUseCompatPadding="true">
 
-    <FrameLayout
-        android:id="@+id/cardStatus"
-        android:layout_width="30dp"
-        android:layout_height="70dp"
-        android:background="@color/colorAccent"
-        android:padding="3dp"
-        android:visibility="visible" />
 
 
 
@@ -25,16 +18,27 @@
         card_view:cardBackgroundColor="@android:color/white"
         card_view:cardElevation="2dp">
 
+        <ImageView
+            android:id="@+id/iconPerson"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:contentDescription="description"
+            android:src="@drawable/ic_person" />
+
 
         <TextView
             android:id="@+id/labelContacto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/iconPerson"
             android:text="Nombre: "
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -42,25 +46,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:maxLines="2"
             android:layout_toEndOf="@+id/labelContacto"
             android:singleLine="true"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:text="Nombre" />
-
-        <ImageView
-
-            android:id="@+id/imgAction"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            app:srcCompat="@drawable/ic_add_circle_outline_black_24dp"
-
-
-            />
 
 
 

@@ -29,5 +29,8 @@ public interface APIInterface {
     @POST("solicitaUser.php")
     Call<WsRecibeBitacora> postSolicitarUsuario(@Body WsRecibeBitacora wsSolicita);
 
+    @POST("registerZona.php")
+    Call<WsRecibeBitacora> postRegistrarZona(@Body WsRecibeBitacora wsZona);
+
 
 }
