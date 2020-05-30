@@ -23,6 +23,7 @@ import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Model.Autenticar;
 import com.example.joaquin.tt_des_v_100.R;
 import com.example.joaquin.tt_des_v_100.Ui.Activity.Home_TT;
+import com.example.joaquin.tt_des_v_100.Ui.Activity.Splash;
 import com.google.gson.Gson;
 import com.tapadoo.alerter.Alerter;
 
@@ -135,7 +136,7 @@ public class WsAut {
                                 if ( getContactList() ){
                                     alert.close();
                                     Utils.hideKeyboard(act);
-                                    final Intent intent = new Intent(act, Home_TT.class);
+                                    final Intent intent = new Intent(act, Splash.class);
                                     final ActivityOptions options = ActivityOptions.makeCustomAnimation(act, R.anim.slide_in_act2, R.anim.slide_out_act2);
 
                                     new Timer().schedule(new TimerTask() {
@@ -301,6 +302,7 @@ public class WsAut {
         SQLiteDatabase db;
         db = act.openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
         Utils.itemsContact.clear();
+        db.delete(DataBaseDB.TB_CONTACTO, null, null);
         String[] projeccion = new String[] { ContactsContract.Data.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE };
         String selectionClause = ContactsContract.Data.MIMETYPE + "='" +
                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "' AND "

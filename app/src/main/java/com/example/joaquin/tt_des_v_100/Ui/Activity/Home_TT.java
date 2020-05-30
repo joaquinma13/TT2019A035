@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
@@ -17,8 +19,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.androidmapsextensions.MarkerOptions;
 import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseHelper;
@@ -27,6 +31,9 @@ import com.example.joaquin.tt_des_v_100.R;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgZonas;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgMap;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgContactos;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +47,8 @@ public class Home_TT extends AppCompatActivity {
     public static DataBaseHelper sqliteHelper;
     private Cursor c = null;
     private Utils a;
+    public static String tipo = "";
+    public static String descrpcion = "";
 
 
     /* Objetos Pager*/
@@ -63,56 +72,10 @@ public class Home_TT extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         if (getIntent().getExtras() != null) {
-            SQLiteDatabase db;
-            db = openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
 
-            if(getIntent().getStringExtra("bandera").equals("1")){
-                int idSave = 0;
-                if (db != null) {
-                    ContentValues values = new ContentValues();
-                    values.put(DataBaseDB.ID_USER, getIntent().getStringExtra("id_user"));
-                    values.put(DataBaseDB.NOMBRE, getIntent().getStringExtra("nombre"));
-                    values.put(DataBaseDB.ESTATUS, "Pendiente2");
-                    idSave = db.update(DataBaseDB.TB_CONTACTO, values,
-                            DataBaseDB.TELEFONO + "='" + getIntent().getStringExtra("telefono")  + "'", null);
+            System.out.println("cadena: " + getIntent().getStringExtra("cadena"));
 
-                    if (idSave == 0){
 
-                        values.clear();
-                        values.put(DataBaseDB.ID_USER, getIntent().getStringExtra("id_user"));
-                        values.put(DataBaseDB.NOMBRE, getIntent().getStringExtra("nombre"));
-                        values.put(DataBaseDB.TELEFONO, getIntent().getStringExtra("telefono"));
-                        values.put(DataBaseDB.ESTATUS, "Pendiente2");
-                        db.insert(DataBaseDB.TB_CONTACTO, null, values);
-
-                    }
-
-                }else{
-                    System.out.println("puntero cerrado");
-                }
-            }else if (getIntent().getStringExtra("bandera").equals("2")){
-                if (db != null) {
-                    ContentValues values = new ContentValues();
-                    values.put(DataBaseDB.ESTATUS, "Activo");
-                    db.update(DataBaseDB.TB_CONTACTO, values,
-                            DataBaseDB.ID_USER + "='" + getIntent().getStringExtra("id_user")  + "'", null);
-
-                }else{
-                    System.out.println("puntero cerrado");
-                }
-            }else if (getIntent().getStringExtra("bandera").equals("3")){
-                if (db != null) {
-                    ContentValues values = new ContentValues();
-                    values.put(DataBaseDB.ESTATUS, "nulo");
-                    db.update(DataBaseDB.TB_CONTACTO, values,
-                            DataBaseDB.ID_USER + "='" + getIntent().getStringExtra("id_user")  + "'", null);
-
-                }else{
-                    System.out.println("puntero cerrado");
-                }
-            }
-
-            db.close();
 
         }
 
@@ -201,5 +164,18 @@ public class Home_TT extends AppCompatActivity {
 
         }
 
+    }
+
+    public static Bitmap loadBitmapFromView(View v) {
+
+        if (v.getMeasuredHeight() <= 0) {
+            v.measure(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            Bitmap b = Bitmap.createBitmap(v.getMeasuredWidth(), v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(b);
+            v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+            v.draw(c);
+            return b;
+        }
+        return null;
     }
 }

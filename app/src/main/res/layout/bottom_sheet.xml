@@ -79,12 +79,14 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/linearDatos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headerSheet"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/contentFecha"
@@ -250,6 +252,152 @@
 
 
         </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headerSheet"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <Spinner
+                android:id="@+id/spTypeEvent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/back_edit" />
+
+            <TextView
+                android:id="@+id/txtEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/white"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:text="Tipo Evento"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lldescripcionEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spC"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/contentDescription"
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_comment" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputDescripcionEvento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                app:errorTextAppearance="@style/error">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/editDescripcionEvento"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="Descripción del Evento"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:padding="7dp"
+                    android:textSize="16sp"
+                    tools:ignore="Autofill" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnAddPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_add_a_photo_white_24dp"
+            android:background="@drawable/back_enter"/>
+
+        <ImageButton
+            android:id="@+id/btnSeePhoto"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_visibility_white_24dp"
+            android:background="@drawable/back_enter"
+            android:visibility="gone"/>
+
+
+        <Button
+            android:id="@+id/btnEnviarEvento"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/back_enter"
+            android:text="Enviar"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/linearButtons"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+
+            <Button
+                android:id="@+id/btnReportar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/back_enter"
+                android:text="Reportar"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginRight="2dp"/>
+
+
+            <Button
+                android:id="@+id/btnDescartar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/back_enter"
+                android:text="Descartar"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginLeft="2dp" />
+
+        </LinearLayout>
+
 
 
 

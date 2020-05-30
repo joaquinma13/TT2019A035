@@ -196,6 +196,7 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
         });
 
         btnContinuar.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
 
@@ -221,6 +222,12 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
                             String.valueOf(coordCamera.latitude),
                             String.valueOf(coordCamera.longitude),
                             editRadio.getText().toString());
+                    FrgZonas.Map.clear();
+                    editNombreZona.setText("");
+                    editRadio.setText("");
+                    //sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+
 
                 }else{
                     Alerter.create(getActivity())

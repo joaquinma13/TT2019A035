@@ -18,11 +18,17 @@ public class WsRecibeBitacora {
     private String latitud;
     private String longitud;
     private String fecha;
+    private String tipo;
+    private String descripcion;
+    private String imagen;
+
 
     public WsRecibeBitacora (String id_user){
         this.id_user = id_user;
     }
 
+
+    //registrar zonas
     public WsRecibeBitacora(String id_user, String id_zona, String nombre, String latitud, String longitud, String radio){
         this.id_user = id_user;
         this.id_zona = id_zona;
@@ -32,6 +38,7 @@ public class WsRecibeBitacora {
         this.radio = radio;
     }
 
+    //registrar bitacora
     public WsRecibeBitacora(String id_user, String senal, String bateria, String imei, String modelo, String latitud,
                             String longitud, String fecha){
         this.id_user = id_user;
@@ -44,6 +51,17 @@ public class WsRecibeBitacora {
         this.fecha = fecha;
     }
 
+
+    //registrar evento
+    public WsRecibeBitacora(String id_user, String tipo, String descripcion, String latitud, String longitud){
+        this.id_user = id_user;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+
     @SerializedName("Bitacora")
     public List<WsRecibeBitacora.Bitacora> Bitacora = new ArrayList<>();
 
@@ -52,6 +70,7 @@ public class WsRecibeBitacora {
 
 
     public class Bitacora{
+
 
         @SerializedName("id_user")
         public String id_user;
@@ -82,6 +101,32 @@ public class WsRecibeBitacora {
 
         @SerializedName("telefono")
         public String telefono;
+
+    }
+
+    @SerializedName("Zonas")
+    public List<WsRecibeBitacora.Zonas> Zonas = new ArrayList<>();
+
+    @SerializedName("Resultados")
+    public String Resultados;
+
+    public class Zonas{
+
+        @SerializedName("id_zona")
+        public String id_zona;
+
+        @SerializedName("nombre")
+        public String nombre;
+
+        @SerializedName("latitud")
+        public String latitud;
+
+        @SerializedName("longitud")
+        public String longitud;
+
+        @SerializedName("radio")
+        public String radio;
+
 
     }
 

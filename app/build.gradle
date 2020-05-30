@@ -86,4 +86,14 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
     implementation 'com.android.support:design:28.0.0-alpha1'
 
+    // Picasso & Cropper
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.6.+'
+
+    //Compressor
+    implementation 'id.zelory:compressor:2.1.0'
+
+    //PintOverBitmap
+    implementation 'ja.burhanrashid52:photoeditor:0.3.3'
+
 }

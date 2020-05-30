@@ -45,18 +45,11 @@ public class WsRecUser {
 
     private Activity act;
     private APIInterface apiInterface;
-
-    private Permission permission;
-    private LocationLibrary ubicacion;
-
     private SharePreference preference;
 
     public WsRecUser(Activity act, String endpoint) {
         this.act = act;
         apiInterface = APIUtils.getUtils(act, endpoint).create(APIInterface.class);
-
-        permission = new Permission(act);
-        ubicacion = new LocationLibrary(act, "GetWebLogin");
         preference = SharePreference.getInstance(act);
     }
 

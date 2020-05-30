@@ -16,6 +16,7 @@ public class WsRecibeUsuario {
     private String codigo;
     private String token;
 
+
     public WsRecibeUsuario(String id_user, String nombre, String correo, String telefono, String contrasena,
                            String bandera, String token){
         this.id_user = id_user;
@@ -50,8 +51,11 @@ public class WsRecibeUsuario {
     @SerializedName("Estatus")
     public String Estatus;
 
-    public class Usuario{
+    @SerializedName("Resultados")
+    public String Resultados;
 
+
+    public class Usuario{
 
         @SerializedName("id_user")
         public String id_user;
@@ -70,6 +74,9 @@ public class WsRecibeUsuario {
 
         @SerializedName("status")
         public String status;
+
+        @SerializedName("estado")
+        public String estado;
 
     }
 }

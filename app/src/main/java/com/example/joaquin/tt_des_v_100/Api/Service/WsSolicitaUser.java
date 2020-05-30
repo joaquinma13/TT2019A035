@@ -15,9 +15,6 @@ import android.widget.TextView;
 
 import com.androidmapsextensions.MarkerOptions;
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
-import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
-import com.example.joaquin.tt_des_v_100.Api.Class.Permission;
-import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeBitacora;
 import com.example.joaquin.tt_des_v_100.R;
@@ -40,16 +37,10 @@ public class WsSolicitaUser {
 
     private Activity act;
     private APIInterface apiInterface;
-    private Permission permission;
-    private LocationLibrary ubicacion;
-    private SharePreference preference;
 
     public WsSolicitaUser(Activity act, String endpoint) {
         this.act = act;
         apiInterface = APIUtils.getUtils(act, endpoint).create(APIInterface.class);
-        permission = new Permission(act);
-        ubicacion = new LocationLibrary(act, "GetWebLogin");
-        preference = SharePreference.getInstance(act);
     }
 
 
@@ -196,7 +187,7 @@ public class WsSolicitaUser {
             values.put(DataBaseDB.LATITUD, latitud);
             values.put(DataBaseDB.LONGITUD, longitud);
             values.put(DataBaseDB.FECHA, fecha);
-            values.put(DataBaseDB.NOMBRE, nombre);
+            //values.put(DataBaseDB.NOMBRE, nombre);
             values.put(DataBaseDB.TELEFONO, telefono);
 
             idSave = (int) db.update(DataBaseDB.TB_CONTACTO, values,

@@ -1,40 +1,24 @@
 package com.example.joaquin.tt_des_v_100.Ui.Fragment;
 
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.androidmapsextensions.SupportMapFragment;
 import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
 import com.example.joaquin.tt_des_v_100.Api.Class.Item;
-import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
 import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
@@ -42,16 +26,6 @@ import com.example.joaquin.tt_des_v_100.Api.Listener.Recycler;
 import com.example.joaquin.tt_des_v_100.Api.Service.WsVinculaUser;
 import com.example.joaquin.tt_des_v_100.R;
 import com.example.joaquin.tt_des_v_100.Ui.Adapter.AdpCuentas;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.tapadoo.alerter.Alerter;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static android.content.ContentValues.TAG;
 
@@ -105,7 +79,7 @@ public class FrgContactos extends Fragment {
                     btnContact.setText("Cancelar Solicitud");
                 }else if(Utils.itemsContact.get(position).getStatus().equals("Pendiente2")){
                     labelEstatus.setText("Pendiente por confirmar");
-                    btnContact.setText("Eliminar Solicitud");
+                    btnContact.setText("Confirmar Solicitud");
                 }
                 sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
@@ -129,11 +103,11 @@ public class FrgContactos extends Fragment {
                     ban = "3";
                     str = "¿Desea desvincular al contacto?";
                 }else if(Utils.itemsContact.get(index).getStatus().equals("Pendiente1")){
-                    ban = "2";
+                    ban = "3";
                     str = "¿Desea cancelar la solicitud?";
                 }else if(Utils.itemsContact.get(index).getStatus().equals("Pendiente2")){
-                    ban = "3";
-                    str = "¿Desea rechazar la solicitud contacto?";
+                    ban = "2";
+                    str = "¿Desea aceptar la solicitud?";
                 }
                 final String bandera = ban;
                 final String string = str;

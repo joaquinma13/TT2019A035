@@ -14,6 +14,9 @@ public interface APIInterface {
     Call<GetLogin> getLogin(@Query("v_usuario") String v_usuario, @Query("v_contrasena") String v_contrasena);*/
 
 
+    /*========================================= POST ==============================================*/
+
+
     @POST("loginUsers.php")
     Call<Autenticar> postAutenticar(@Body Autenticar wsPass);
 
@@ -31,6 +34,16 @@ public interface APIInterface {
 
     @POST("registerZona.php")
     Call<WsRecibeBitacora> postRegistrarZona(@Body WsRecibeBitacora wsZona);
+
+    @POST("notificationUser.php")
+    Call<WsEnviaEvento> postNotificationUser(@Body WsEnviaEvento wsNotification);
+
+    @POST("getContacts.php")
+    Call<WsRecibeUsuario> postContacts(@Body WsRecibeUsuario wsContacts);
+
+    @POST("getZones.php")
+    Call<WsRecibeBitacora> postZonas(@Body WsRecibeBitacora wsZonas);
+
 
 
 }

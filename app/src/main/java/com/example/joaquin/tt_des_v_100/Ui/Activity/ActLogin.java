@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -48,7 +49,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,9 +82,6 @@ public class ActLogin extends AppCompatActivity {
     public TextView btnPreregistro;
     private ImageView txtCerrar;
 
-    // VARIABLE
-    private String strPass = "12345678";
-    public static boolean isSession = false;
 
 
     //WebService
@@ -137,79 +137,39 @@ public class ActLogin extends AppCompatActivity {
         btnPreregistro = findViewById(R.id.btnPreregistro);
         txtCerrar = findViewById(R.id.textViewCerrar);
 
-        permission.checkPermissions(true);
+        preference.saveData("chanel_event", 1);
+        preference.saveData("chanel_notify", 2);
+
+
+        if( !permission.checkPermissions()  )
+            permission.askPermissions();
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                if( !permission.checkPermissions()  )
+                    permission.askPermissions();
+                else {
+                    inputUser.setError(null);
+                    inputUser.setErrorEnabled(false);
+                    inputPass.setError(null);
+                    inputPass.setErrorEnabled(false);
 
+                    String user = etUser.getText().toString();
+                    String pass = etPass.getText().toString();
 
-                inputUser.setError(null);
-                inputUser.setErrorEnabled(false);
-                inputPass.setError(null);
-                inputPass.setErrorEnabled(false);
-
-                String user = etUser.getText().toString();
-                String pass = etPass.getText().toString();
-
-
-
-                if (user.trim().equalsIgnoreCase("")) {
-                    inputUser.setError("Usuario obligatorio");
-                    etUser.requestFocus();
-                } else if (pass.trim().equalsIgnoreCase("")) {
-                    inputPass.setError("Contraseña obligatoria");
-                    etPass.requestFocus();
-                }/* else if (isSession) {
-
-                    getWebLogin("joaquinma1992@gmail.com", "$Yoyo1992");
-
-
-
-
-                    if (pass.equals(strPass)) {
-                        Utils.hideKeyboard(ActLogin.this);
-                        final Intent intent = new Intent(ActLogin.this, Home_TT.class);
-                        final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
-
-                        new Timer().schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        startActivity(intent, options.toBundle());
-                                        finish();
-                                    }
-                                });
-                            }
-                        }, 250);
-                    }
-                    // Si las contraseñas son distintas mostrar mensaje de Error
-                    else {
-                        Alerter.create(ActLogin.this)
-                                .setTitle("Contraseña incorrecta")
-                                .setText("Por favor intentelo de nuevo")
-                                .setIcon(ContextCompat.getDrawable(ActLogin.this, R.drawable.ic_lock))
-                                .setBackgroundColorRes(R.color.colorPrimaryDark)
-                                .setDuration(2000)
-                                .show();
-                    }
-                } */else {
-
-                    new WsAut(ActLogin.this, "master").getWebLogin(user, pass);
-
-
-                    /*if (connection.getConnection(2)) {
-                        etUser.setEnabled(false);
-                        etPass.setEnabled(false);
-                        btnLogin.setEnabled(false);
+                    if (user.trim().equalsIgnoreCase("")) {
+                        inputUser.setError("Usuario obligatorio");
+                        etUser.requestFocus();
+                    } else if (pass.trim().equalsIgnoreCase("")) {
+                        inputPass.setError("Contraseña obligatoria");
+                        etPass.requestFocus();
+                    }else {
                         new WsAut(ActLogin.this, "master").getWebLogin(user, pass);
-                    }*/
+                    }
                 }
-
-
             }
         });
 
@@ -217,49 +177,28 @@ public class ActLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Intent intent = new Intent(ActLogin.this, ActRegistro.class);
-                final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
+                if( !permission.checkPermissions()  )
+                    permission.askPermissions();
+                else {
+                    final Intent intent = new Intent(ActLogin.this, ActRegistro.class);
+                    final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
 
 
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(intent, options.toBundle());
-                                finish();
-                            }
-                        });
-                    }
-                }, 250);
-
-                /*final CustomAlert alert = new CustomAlert(ActLogin.this);
-                alert.setTypeWarning("No disponible", "Se esta trabajando en la vista", "Aceptar");
-                alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alert.close();
-                    }
-                });
-                alert.show();*/
-
-                /*if (getCorreoPreregistro() == null) {
-                    Intent intent = new Intent(ActLogin.this, Home_TT.class);
-                    ;
-                    ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    final CustomAlert alert = new CustomAlert(ActLogin.this);
-                    alert.setTypeWarning("Pre-registro activo", "Ya realizaste un pre-registro en este dispositivo", "Aceptar");
-                    alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+                    new Timer().schedule(new TimerTask() {
                         @Override
-                        public void onClick(View v) {
-                            alert.close();
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(intent, options.toBundle());
+                                    finish();
+                                }
+                            });
                         }
-                    });
-                    alert.show();
-                }*/
+                    }, 250);
+                }
+
+
 
             }
         });
@@ -276,23 +215,11 @@ public class ActLogin extends AppCompatActivity {
 
             if (c.moveToFirst()) {
 
-                System.out.println("hay session");
-                System.out.println("nombre usuario: " + c.getString(0));
-                System.out.println("nombre usuario: " + c.getString(1));
-                System.out.println("nombre usuario: " + c.getString(2));
-
-                final Intent intent = new Intent(ActLogin.this, Home_TT.class);
-                //final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
+                final Intent intent = new Intent(ActLogin.this, Splash.class);
                 startActivity(intent);
                 finish();
 
-            }else{
-
-
-
             }
-
-            //finish();
         } catch (Exception ex) {
             Log.e(TAG, "Error al consultar session: " + ex);
         } finally {
@@ -300,37 +227,8 @@ public class ActLogin extends AppCompatActivity {
         }
     }
 
-    /*public void getWebLogin(final String identificador, final String contrasena) {
 
-        final Call<Autenticar> call = apiInterface.postAutenticar(new Autenticar(identificador,contrasena));
 
-        call.enqueue(new Callback<Autenticar>() {
-            @Override
-            public void onResponse(final Call<Autenticar> call, Response<Autenticar> response) {
-
-                Log.d(TAG, String.valueOf(response.code()));
-
-                if (response.isSuccessful()) {
-
-                    Log.d("JSON: ", new Gson().toJson(response.body()));
-
-                    Autenticar aut = response.body();
-
-                    for (Autenticar.Respuesta usuario : aut.Respuesta) {
-                        System.out.println("Server Response: " + usuario.mensaje);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Autenticar> call, Throwable t) {
-                call.cancel();
-
-                System.out.println("Ya nos chingamos jajajaja");
-            }
-        });
-
-    }*/
 
 
 

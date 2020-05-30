@@ -1,13 +1,19 @@
 package com.example.joaquin.tt_des_v_100.Ui.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +57,7 @@ public class ActRegistro extends AppCompatActivity {
 
     public static String bandera = "0";
     private SharePreference preference;
-
+    private String mPhoneNumber = null;
 
 
     @Override
@@ -61,8 +67,28 @@ public class ActRegistro extends AppCompatActivity {
         preference = SharePreference.getInstance(getApplicationContext());
 
         initBinding();
+        initControls();
         listeners();
 
+
+    }
+
+    private void initControls() {
+        /*TelephonyManager tMgr = (TelephonyManager) getApplication().getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions.
+
+            System.out.println("no se armo!!!!");
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mPhoneNumber = tMgr.getImei();
+        }
+        System.out.println("numero: " + tMgr.getDeviceId());
+        mPhoneNumber = tMgr.getLine1Number();
+        if (mPhoneNumber != null)
+            editNumTel.setText(mPhoneNumber);*/
 
     }
 

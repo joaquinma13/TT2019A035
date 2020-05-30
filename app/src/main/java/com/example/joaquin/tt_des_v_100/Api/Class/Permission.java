@@ -39,7 +39,7 @@ public class Permission {
         this.context = context;
     }
 
-    public boolean checkPermissions(boolean click_enter) {
+    public boolean checkPermissions() {
 
         int countPermissions = 0;
         /*
@@ -71,30 +71,48 @@ public class Permission {
             }
         }
 
-        if (countPermissions > 0) {
+
+        if (countPermissions > 0)
+            return false;
+
+        return true;
+    }
+
+    public void askPermissions() {
+
+        int countPermissions = 0;
+        /*
+          Hacer un recorrido por los permisos globales para revisar que permisos se han otorgado,
+          la variable countPermissions se incrementa si no tenemos otorgado el permiso.
+         */
+        for (String globalPermission : globalPermissions) {
+            if (ContextCompat.checkSelfPermission(act, globalPermission) != PackageManager.PERMISSION_GRANTED) {
+                countPermissions++;
+            }
+        }
+        /*
+         * Arreglo de Strings del tamaño de permisos que no han sido otorgados.
+         */
+        String permissions[] = new String[countPermissions];
+        countPermissions = 0;
+
+        /*
+         * Llenado del arreglo de Strings con los permisos que no fueron ®otorgados para
+         * posteriormente pedirlos al usuario.
+         */
+
+        boolean uiPermission = true;
+        for (String globalPermission : globalPermissions) {
+            if (ContextCompat.checkSelfPermission(act, globalPermission) != PackageManager.PERMISSION_GRANTED) {
+                permissions[countPermissions++] = globalPermission;
+                uiPermission &= ActivityCompat.shouldShowRequestPermissionRationale(act, globalPermission);
+            }
+        }
+
+
+        if (countPermissions > 0)
             ActivityCompat.requestPermissions(act, permissions, 1);
 
-            /*if (!uiPermission && click_enter) {
-                final Snackbar snackBar = Snackbar.make(act.findViewById(android.R.id.content), "Faltan permisos", Snackbar.LENGTH_INDEFINITE);
-                snackBar.setAction("Aceptar", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", act.getPackageName(), null);
-                        intent.setData(uri);
-                        act.startActivity(intent);
-
-                        snackBar.dismiss();
-                    }
-                });
-                snackBar.show();
-            }*/
-
-            return false;
-        }
-        return true;
     }
 
     public boolean isNotificationServiceEnabled() {
