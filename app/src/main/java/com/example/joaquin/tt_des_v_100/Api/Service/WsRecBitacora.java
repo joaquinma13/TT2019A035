@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -16,9 +18,12 @@ import com.example.joaquin.tt_des_v_100.Api.Class.Permission;
 import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeBitacora;
+import com.example.joaquin.tt_des_v_100.Api.backservices.backServiceBitacora;
 import com.example.joaquin.tt_des_v_100.R;
 import com.google.gson.Gson;
+import com.tapadoo.alerter.Alerter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -95,12 +100,23 @@ public class WsRecBitacora {
                     }catch (Exception e){
                         Toast.makeText(context,"RecibeMonitoreo: " + e.toString(), Toast.LENGTH_LONG).show();
                     }
+                }else{
+                    System.out.println("response: " + response);
                 }
             }
 
             @Override
             public void onFailure(Call<WsRecibeBitacora> call, Throwable t) {
                 call.cancel();
+                System.out.println("onFailure: " + t);
+
+                if (t instanceof IOException) {
+                    System.out.println("error en la red");
+                }
+                else {
+                    System.out.println("error en API");
+                }
+
             }
         });
     }

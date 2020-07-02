@@ -12,7 +12,7 @@ public class DataBaseDB {
     public static final String TB_CONTACTO = "tb_name_contacto";
     public static final String TB_ZONAS = "tb_name_zona";
     public static final String TB_EVENTO = "tb_evento";
-    public static final String TB_BITACORA = "tb_bitacora";
+    public static final String TB_CONFIGURACION = "tb_configuracion";
 
 
     // TB_NAME_USUARIO
@@ -38,22 +38,18 @@ public class DataBaseDB {
     public static String RADIO = "radio";
 
 
-    //TB_NOTIFICACIONES
+    //TB_EVENTO
     public static String TIPO = "tipo";
     public static String DESCRIPCION = "descripcion";
     public static String RUTA = "ruta";
     public static String CADENA = "cadena";
+    public static String ESTADO = "estado";
 
-
-
-    /*private String id_user;
-    private String senal;
-    private String bateria;
-    private String imei;
-    private String modelo;
-    private String latitud;
-    private String longitud;
-    private String fecha;*/
+    //TB_CONFIGURACION
+    public static String DISTANCIA = "distancia";
+    public static String GUARDIAN = "guardian";
+    public static String TIEMPO = "tiempo";
+    public static String SESION = "sesion";
 
 
 }

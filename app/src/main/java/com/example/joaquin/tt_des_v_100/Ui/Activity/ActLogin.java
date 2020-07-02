@@ -121,7 +121,6 @@ public class ActLogin extends AppCompatActivity {
         db = sqliteHelper.getWritableDatabase();
         db.close();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("topic_general");
 
         permission = new Permission(this);
         connection = new Connection(this);
@@ -137,20 +136,15 @@ public class ActLogin extends AppCompatActivity {
         btnPreregistro = findViewById(R.id.btnPreregistro);
         txtCerrar = findViewById(R.id.textViewCerrar);
 
-        preference.saveData("chanel_event", 1);
-        preference.saveData("chanel_notify", 2);
 
-
-        if( !permission.checkPermissions()  )
-            permission.askPermissions();
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if( !permission.checkPermissions()  )
-                    permission.askPermissions();
+                if( !permission.checkPermissions())
+                    Permissions();
                 else {
                     inputUser.setError(null);
                     inputUser.setErrorEnabled(false);
@@ -178,7 +172,7 @@ public class ActLogin extends AppCompatActivity {
             public void onClick(View v) {
 
                 if( !permission.checkPermissions()  )
-                    permission.askPermissions();
+                    Permissions();
                 else {
                     final Intent intent = new Intent(ActLogin.this, ActRegistro.class);
                     final ActivityOptions options = ActivityOptions.makeCustomAnimation(ActLogin.this, R.anim.slide_in_act2, R.anim.slide_out_act2);
@@ -203,7 +197,6 @@ public class ActLogin extends AppCompatActivity {
             }
         });
 
-        getSession();
     }
 
 
@@ -227,7 +220,67 @@ public class ActLogin extends AppCompatActivity {
         }
     }
 
+    public void Permissions(){
+        Utils.hideKeyboard(this);
+        findViewById(R.id.relativeMask).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.txtNotification)).setText("Actualmente la aplicacion no tiene los permisos necesarios, para poder continuar debes autorizarlos");
+        ((ImageView) findViewById(R.id.imgMask)).setImageResource(R.drawable.ic_accessibility_white_24dp);
+        findViewById(R.id.btnMaskCancelar).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnMaskActivar).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnMaskCancelar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        findViewById(R.id.btnMaskActivar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.relativeMask).setVisibility(View.GONE);
+                permission.askPermissions();
+            }
+        });
+    }
 
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("topic_general");
+        preference.saveData("chanel_event", 1);
+        preference.saveData("chanel_problem", 2);
+        preference.saveData("chanel_notify", 3);
+
+
+
+        if (  !ubicacion.getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)  ){
+            Utils.hideKeyboard(this);
+            findViewById(R.id.relativeMask).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.txtNotification)).setText("Actualmente tienes la ubicación desactivada, para poder continuar debes permitir acceso a la ubicación");
+            ((ImageView) findViewById(R.id.imgMask)).setImageResource(R.drawable.ic_place_white);
+            findViewById(R.id.btnMaskCancelar).setVisibility(View.VISIBLE);
+            findViewById(R.id.btnMaskActivar).setVisibility(View.VISIBLE);
+            findViewById(R.id.btnMaskCancelar).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            findViewById(R.id.btnMaskActivar).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                }
+            });
+        }else if( !permission.checkPermissions()  ){
+            Permissions();
+        }else{
+            getSession();
+        }
+
+    }
 
 
 

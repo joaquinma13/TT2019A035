@@ -15,6 +15,18 @@ public class WsEnviaEvento {
     private String ruta;
     private String cadena;
 
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    private String estado;
+
+
+
+    public String getEstado() {
+        return estado;
+    }
+
     public String getId_user() {
         return id_user;
     }
@@ -52,7 +64,7 @@ public class WsEnviaEvento {
     }
 
     public WsEnviaEvento(String cadena, String ruta, String descripcion, String id_user,
-                         String tipo, String latitud, String longitud, String imagen, String fecha) {
+                         String tipo, String latitud, String longitud, String imagen, String fecha, String estado) {
         this.cadena = cadena;
         this.ruta = ruta;
         this.descripcion = descripcion;
@@ -62,6 +74,7 @@ public class WsEnviaEvento {
         this.longitud = longitud;
         this.imagen = imagen;
         this.fecha = fecha;
+        this.estado = estado;
     }
 
     //registrar evento

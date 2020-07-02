@@ -87,7 +87,6 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="@string/nombre_user"
-                        android:inputType="textCapCharacters"
                         android:padding="7dp"
                         android:textSize="16sp"
                         tools:ignore="Autofill" />
@@ -127,7 +126,6 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="@string/correo"
-                        android:inputType="textCapCharacters"
                         android:padding="7dp"
                         android:textSize="16sp"
                         tools:ignore="Autofill" />
@@ -292,7 +290,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="Para finalizar su registro busque en el buzon de su correo joaquinma1992@gmail.com un mensaje enviado desde la direccion algo@gmail.com que contiene el codigo de confirmacion."
+                    android:text="Para finalizar su registro busque en el buzon de su correo joaquinma1992@gmail.com un mensaje enviado desde la direccion trabajoterminal2019a035@gmail.com que contiene el codigo de confirmacion."
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textAlignment="center"

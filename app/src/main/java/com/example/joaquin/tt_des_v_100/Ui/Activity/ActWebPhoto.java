@@ -27,25 +27,9 @@ public class ActWebPhoto extends AppCompatActivity {
         webview.getSettings().setBuiltInZoomControls(true);
         webview.getSettings().setDisplayZoomControls(false);
         webview.getSettings().setSupportZoom(true);
-        webview.loadUrl("http://192.168.100.6/servicesTT/Pictures/idlgmovhcj_16:06:34.jpg");
+        webview.loadUrl(baseURL);
         webview.setWebViewClient(new WebViewClient());
 
-
-        /*webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-
-                view.loadUrl("http://192.168.100.6/servicesTT/Pictures/ij5lwboqmp_15:33:43.jpg");
-                return true;
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-                System.out.println("error");
-            }
-
-        });*/
     }
 
     @Override

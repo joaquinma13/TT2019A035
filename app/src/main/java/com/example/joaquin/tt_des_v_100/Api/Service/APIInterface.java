@@ -44,6 +44,18 @@ public interface APIInterface {
     @POST("getZones.php")
     Call<WsRecibeBitacora> postZonas(@Body WsRecibeBitacora wsZonas);
 
+    @POST("getConfig.php")
+    Call<WsConfiguracion> postConfig(@Body WsConfiguracion wsConfig);
+
+    @POST("registerReporte.php")
+    Call<WsEnviaReporte> postReportes(@Body WsEnviaReporte wsReportes);
+
+    @POST("panicButton.php")
+    Call<WsPanico> postPanico(@Body WsPanico wsPanico);
+
+    @POST("updateConfig.php")
+    Call<WsConfiguracion> postChangeConfig(@Body WsConfiguracion wsConfig);
+
 
 
 }

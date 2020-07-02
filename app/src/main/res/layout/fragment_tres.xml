@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/cardToolbar"
-            android:layout_marginBottom="82dp"
+
             >
 
 
@@ -88,6 +88,15 @@
                 android:layout_margin="10dp"
                 android:background="@color/colorAccent"
                 android:src="@drawable/ic_add_alert_white_24dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnPanic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnEvento"
+                android:layout_margin="10dp"
+                android:background="@color/colorAccent"
+                android:src="@drawable/ic_warning_white_24dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

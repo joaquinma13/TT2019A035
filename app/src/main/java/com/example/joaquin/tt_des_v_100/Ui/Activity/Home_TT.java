@@ -1,14 +1,11 @@
 package com.example.joaquin.tt_des_v_100.Ui.Activity;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,28 +14,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
-import com.androidmapsextensions.MarkerOptions;
 import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
-import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseHelper;
-import com.example.joaquin.tt_des_v_100.Api.backservices.LocationService;
 import com.example.joaquin.tt_des_v_100.R;
+import com.example.joaquin.tt_des_v_100.Ui.Adapter.AdpCuentas;
+import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgConfig;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgZonas;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgMap;
 import com.example.joaquin.tt_des_v_100.Ui.Fragment.FrgContactos;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.graphics.Color.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Home_TT extends AppCompatActivity {
 
@@ -50,6 +41,11 @@ public class Home_TT extends AppCompatActivity {
     public static String tipo = "";
     public static String descrpcion = "";
 
+    private View viewMap;
+    private View viewContac;
+    private View viewZona;
+    private View viewConf;
+
 
     /* Objetos Pager*/
     private TabLayout tabLayout;
@@ -58,18 +54,29 @@ public class Home_TT extends AppCompatActivity {
     private int[] tabIcons = {
             R.drawable.baseline_map_white_24dp,
             R.drawable.baseline_supervisor_account_white_24dp,
-            R.drawable.baseline_location_on_white_24dp};
+            R.drawable.baseline_location_on_white_24dp,
+            R.drawable.ic_settings_white_24dp};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        viewMap = findViewById(R.id.viewMap);
+        viewContac = findViewById(R.id.viewContac);
+        viewZona = findViewById(R.id.viewZona);
+        viewConf = findViewById(R.id.viewConf);
+
         //a = new Utils(Home_TT.this);
 
         /* CREACION DE PAGER */
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+
+        /*
+        recyclerAdapter = new AdpCuentas(getActivity(), Utils.itemsContact);
+        recyclerContact.setAdapter(recyclerAdapter);
+         */
 
         if (getIntent().getExtras() != null) {
 
@@ -80,8 +87,13 @@ public class Home_TT extends AppCompatActivity {
         }
 
 
-        stopService(new Intent(this, LocationService.class));
+        //stopService(new Intent(this, LocationService.class));
         //startService(new Intent(this, LocationService.class));
+
+        //stopService(new Intent(this, backServiceBitacora.class));
+        //startService(new Intent(this, backServiceBitacora.class));
+
+
 
         /*toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,9 +104,77 @@ public class Home_TT extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setFocusable(false);
+        //tabLayout.setFocusable(false);
 
         setupTabIcons();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+
+            }
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onPageSelected(int i) {
+
+                switch (i) {
+                    case 0:
+
+                        viewMap.setVisibility(View.VISIBLE);
+                        viewContac.setVisibility(View.INVISIBLE);
+                        viewZona.setVisibility(View.INVISIBLE);
+                        viewConf.setVisibility(View.INVISIBLE);
+
+                        break;
+                    case 1:
+                        viewMap.setVisibility(View.INVISIBLE);
+                        viewContac.setVisibility(View.VISIBLE);
+                        viewZona.setVisibility(View.INVISIBLE);
+                        viewConf.setVisibility(View.INVISIBLE);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                new Timer().schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                FrgContactos.recyclerAdapter = new AdpCuentas(Home_TT.this, Utils.itemsContact);
+                                                FrgContactos.recyclerContact.setAdapter(FrgContactos.recyclerAdapter);
+                                            }
+                                        });
+                                    }
+                                }, 500);
+                            }
+                        }).start();
+                        break;
+                    case 2:
+                        viewMap.setVisibility(View.INVISIBLE);
+                        viewContac.setVisibility(View.INVISIBLE);
+                        viewZona.setVisibility(View.VISIBLE);
+                        viewConf.setVisibility(View.INVISIBLE);
+                        break;
+                    case 3:
+                        viewMap.setVisibility(View.INVISIBLE);
+                        viewContac.setVisibility(View.INVISIBLE);
+                        viewZona.setVisibility(View.INVISIBLE);
+                        viewConf.setVisibility(View.VISIBLE);
+                        break;
+                }
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+
+        });
 
     }
 
@@ -104,6 +184,7 @@ public class Home_TT extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
 
         /*View v1 = LayoutInflater.from(Home_TT.this).inflate(R.layout.custom_tab, null);
         ImageView imgTab1 = v1.findViewById(R.id.imgTab);
@@ -128,6 +209,7 @@ public class Home_TT extends AppCompatActivity {
         adapter.addFrag(new FrgMap(), "MAPAS");
         adapter.addFrag(new FrgContactos(), "CONTACTOS");
         adapter.addFrag(new FrgZonas(), "ZONA");
+        adapter.addFrag(new FrgConfig(), "CONFIGURACION");
 
         viewPager.setAdapter(adapter);
     }

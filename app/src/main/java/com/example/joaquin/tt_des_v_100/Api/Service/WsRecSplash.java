@@ -13,9 +13,11 @@ import android.widget.ImageView;
 
 import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
+import com.example.joaquin.tt_des_v_100.Api.Model.WsConfiguracion;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeBitacora;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsRecibeUsuario;
 import com.example.joaquin.tt_des_v_100.R;
+import com.example.joaquin.tt_des_v_100.Ui.Activity.ActLogin;
 import com.example.joaquin.tt_des_v_100.Ui.Activity.Home_TT;
 import com.example.joaquin.tt_des_v_100.Ui.Activity.Splash;
 import com.google.gson.Gson;
@@ -41,6 +43,7 @@ public class WsRecSplash {
     private SharePreference preference;
     private boolean contact = false;
     private boolean zones = false;
+    private boolean config = false;
     private boolean errorConnexion = false;
     int errores = 0;
 
@@ -54,6 +57,7 @@ public class WsRecSplash {
     public void startThreads(String id_user, ImageView imageView){
         getContactos(id_user);
         getZones(id_user);
+        getConfig(id_user);
         this.imageView = imageView;
     }
 
@@ -79,6 +83,9 @@ public class WsRecSplash {
                                         System.out.println("Contacto: " + usuario.nombre);
                                         updateUser(usuario.id_user, usuario.nombre, usuario.telefono, usuario.estado);
                                     }
+                                    contact = true;
+                                    checkSplash();
+                                }else{
                                     contact = true;
                                     checkSplash();
                                 }
@@ -126,6 +133,9 @@ public class WsRecSplash {
                                     }
                                     zones = true;
                                     checkSplash();
+                                }else{
+                                    zones = true;
+                                    checkSplash();
                                 }
                             } catch (Exception e) {
                                 errorConnexion = true;
@@ -144,6 +154,54 @@ public class WsRecSplash {
                 call.cancel();
                 errorConnexion = true;
                 zones = true;
+                checkSplash();
+            }
+        });
+    }
+
+    public void getConfig(final String id_user) {
+
+        final Call<WsConfiguracion> call = apiInterface.postConfig(new WsConfiguracion(id_user,"","","",""));
+
+        call.enqueue(new Callback<WsConfiguracion>() {
+            @Override
+            public void onResponse(final Call<WsConfiguracion> call, Response<WsConfiguracion> response) {
+                Log.d(TAG, String.valueOf(response.code()));
+                if (response.isSuccessful()) {
+                    Log.d("JSON: ", new Gson().toJson(response.body()));
+                    final WsConfiguracion getConfig = response.body();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if(!getConfig.Resultados.equals("0")){
+                                    for (WsConfiguracion.Configuracion config : getConfig.Configuracion) {
+                                        System.out.println("Config: " + config.id_user);
+                                        updateConfig(config.id_user, config.distancia, config.guardian, config.tiempo, config.sesion);
+                                    }
+                                    config = true;
+                                    checkSplash();
+                                }else{
+                                    config = true;
+                                    checkSplash();
+                                }
+                            } catch (Exception e) {
+                                errorConnexion = true;
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+                }else{
+                    errorConnexion = true;
+                    config = true;
+                    checkSplash();
+                }
+            }
+            @Override
+            public void onFailure(Call<WsConfiguracion> call, Throwable t) {
+                call.cancel();
+                errorConnexion = true;
+                config = true;
                 checkSplash();
             }
         });
@@ -207,8 +265,41 @@ public class WsRecSplash {
         }
     }
 
+
+    private void updateConfig(String id_user, String distancia, String guardian, String tiempo, String sesion) {
+
+        int idSave = 0;
+        if (db != null) {
+            ContentValues values = new ContentValues();
+
+            values.put(DataBaseDB.ID_USER, id_user);
+            values.put(DataBaseDB.DISTANCIA, distancia);
+            values.put(DataBaseDB.GUARDIAN, guardian);
+            values.put(DataBaseDB.TIEMPO, tiempo);
+            values.put(DataBaseDB.SESION, sesion);
+            idSave = db.update(DataBaseDB.TB_CONFIGURACION, values,
+                    DataBaseDB.ID_USER + "='" + id_user  + "'", null);
+
+            if (idSave == 0){
+
+                values.clear();
+                values.put(DataBaseDB.ID_USER, id_user);
+                values.put(DataBaseDB.DISTANCIA, distancia);
+                values.put(DataBaseDB.GUARDIAN, guardian);
+                values.put(DataBaseDB.TIEMPO, tiempo);
+                values.put(DataBaseDB.SESION, sesion);
+                idSave = (int) db.insert(DataBaseDB.TB_CONFIGURACION, null, values);
+                if ( idSave == 0 )
+                    errores++;
+            }
+
+        }else{
+            errores++;
+        }
+    }
+
     public void checkSplash(){
-        if(contact & zones){
+        if(contact & zones & config){
             db.close();
             imageView.clearAnimation();
             final Intent intent = new Intent(act, Home_TT.class);
@@ -220,22 +311,7 @@ public class WsRecSplash {
                     act.finish();
                 }
             });
-            /*new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    act.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            act.startActivity(intent, options.toBundle());
-                            act.finish();
-                        }
-                    });
-                }
-            }, 250);*/
         }
     }
 
-    public void algo(){
-
-    }
 }

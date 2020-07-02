@@ -218,7 +218,7 @@ public class LocationService extends Service {
 
         if (provider != null) {
             //locationManager.requestLocationUpdates(provider, 10000, 0, locationListenerBest);
-            locationManager.requestLocationUpdates(provider, 300000, 0, locationListenerBest);
+            locationManager.requestLocationUpdates(provider, 5000, 0, locationListenerBest);
         } else {
             Log.e("Else ", "Las coordenadas son nullas");
         }

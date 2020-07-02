@@ -11,12 +11,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        System.out.println("DataBaseHelper");
     }
 
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        System.out.println("onCreate(SQLiteDatabase db)");
 
         //---------------------------------- TABLE_NAME_USUARIO ------------------------------------
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_NAME_USUARIO + "(" +
@@ -65,10 +68,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 DataBaseDB.ID_USER + " TEXT, " +        // 3
                 DataBaseDB.TIPO + " TEXT, " +           // 4
                 DataBaseDB.LATITUD + " TEXT, " +        // 5
-                DataBaseDB.LONGITUD + " TEXT); "        // 6
+                DataBaseDB.LONGITUD + " TEXT, " +       // 6
+                DataBaseDB.ESTADO + " TEXT); "          // 7
         );
         Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_EVENTO");
 
+        //------------------------------ TB_CONFIGURACION ------------------------------------
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DataBaseDB.TB_CONFIGURACION + "(" +
+                DataBaseDB.ID_USER + " TEXT, " +         // 0
+                DataBaseDB.DISTANCIA + " TEXT, " +       // 1
+                DataBaseDB.GUARDIAN + " TEXT, " +        // 2
+                DataBaseDB.TIEMPO + " TEXT, " +          // 3
+                DataBaseDB.SESION + " TEXT); "           // 4
+        );
+        Log.i(TAG, "CREATE TABLE IF NOT EXISTS DataBaseDB.TB_CONFIGURACION");
 
 
     }

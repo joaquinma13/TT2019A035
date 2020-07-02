@@ -5,6 +5,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,6 +43,7 @@ import com.androidmapsextensions.GoogleMap;
 import com.androidmapsextensions.Marker;
 import com.androidmapsextensions.OnMapReadyCallback;
 import com.androidmapsextensions.SupportMapFragment;
+import com.example.joaquin.tt_des_v_100.Api.Class.CustomAlert;
 import com.example.joaquin.tt_des_v_100.Api.Class.Item;
 import com.example.joaquin.tt_des_v_100.Api.Class.LocationLibrary;
 import com.example.joaquin.tt_des_v_100.Api.Class.SharePreference;
@@ -49,6 +51,8 @@ import com.example.joaquin.tt_des_v_100.Api.Class.Utils;
 import com.example.joaquin.tt_des_v_100.Api.Db.DataBaseDB;
 import com.example.joaquin.tt_des_v_100.Api.Model.WsEnviaEvento;
 import com.example.joaquin.tt_des_v_100.Api.Service.WsNotification;
+import com.example.joaquin.tt_des_v_100.Api.Service.WsRecPanico;
+import com.example.joaquin.tt_des_v_100.Api.Service.WsRecReporte;
 import com.example.joaquin.tt_des_v_100.Api.Service.WsRecZona;
 import com.example.joaquin.tt_des_v_100.Api.Service.WsSolicitaUser;
 import com.example.joaquin.tt_des_v_100.R;
@@ -126,6 +130,13 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
     private Button btnDescartar;
     private Marker markerGlobal;
 
+    private LinearLayout linearReporte;
+    private TextInputLayout inputReporteEvento;
+    private TextInputEditText editReporteEvento;
+    private Button btnEnviarReporte;
+    private Button btnAtras;
+    private FloatingActionButton btnPanic;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -173,6 +184,12 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
 
         if ( arrayEvent.size() > 0  ){
             FrgMap.Map.clear();
+            Alerter.create(getActivity())
+                    .setTitle("Existen evento(s) cercanos a tu ubicación")
+                    .setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_warning))
+                    .setBackgroundColorRes(R.color.red)
+                    .setDuration(2000)
+                    .show();
             type = true;
             for (int i = 0; i < arrayEvent.size(); i++ ){
                 View v = getLayoutInflater().inflate(R.layout.layout_marker, null);
@@ -195,6 +212,7 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
             @SuppressLint("SetTextI18n")
             @Override
             public boolean onMarkerClick(Marker marker) {
+
                 markerGlobal = marker;
                 btnAddPhoto.setVisibility(View.GONE);
                 linearButtons.setVisibility(View.VISIBLE);
@@ -307,6 +325,13 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
         linearButtons = view.findViewById(R.id.linearButtons);
         btnReportar = view.findViewById(R.id.btnReportar);
         btnDescartar = view.findViewById(R.id.btnDescartar);
+
+        linearReporte = view.findViewById(R.id.linearReporte);
+        inputReporteEvento = view.findViewById(R.id.inputReporteEvento);
+        editReporteEvento = view.findViewById(R.id.editReporteEvento);
+        btnEnviarReporte = view.findViewById(R.id.btnEnviarReporte);
+        btnAtras = view.findViewById(R.id.btnAtras);
+        btnPanic = view.findViewById(R.id.btnPanic);
     }
 
     public void listener(){
@@ -324,7 +349,7 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
                     marcarMap.setVisibility(View.GONE);
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     type = false;
-                    new WsSolicitaUser(getActivity(), "master").getContacto("11111",
+                    new WsSolicitaUser(getActivity(), "master").getContacto(hasMapContacto.get(spContacto.getSelectedItem().toString()),
                             txtNombre,
                             txtSite,
                             labelFecha,
@@ -357,6 +382,7 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
         });
 
         btnEvento.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
 
@@ -374,6 +400,9 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
                     viewHorizontal.setVisibility(View.VISIBLE);
                     cleanMap.setVisibility(View.VISIBLE);
                     marcarMap.setVisibility(View.VISIBLE);
+                    txtNombre.setText("");
+                    txtSite.setText("");
+                    btnPanic.setVisibility(View.GONE);
                     type = true;
                 }else{
                     linearDatos.setVisibility(View.VISIBLE);
@@ -382,6 +411,9 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
                     viewHorizontal.setVisibility(View.GONE);
                     cleanMap.setVisibility(View.GONE);
                     marcarMap.setVisibility(View.GONE);
+                    txtNombre.setText("");
+                    txtSite.setText("");
+                    btnPanic.setVisibility(View.VISIBLE);
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     type = false;
                 }
@@ -429,6 +461,7 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
         });
 
         btnEnviarEvento.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
 
@@ -462,12 +495,14 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
                     FrgMap.strImagen = "";
 
                     linearDatos.setVisibility(View.VISIBLE);
+                    linearReporte.setVisibility(View.GONE);
                     linearEvento.setVisibility(View.GONE);
                     viewVertical.setVisibility(View.GONE);
                     viewHorizontal.setVisibility(View.GONE);
                     cleanMap.setVisibility(View.GONE);
                     marcarMap.setVisibility(View.GONE);
                     editDescripcionEvento.setText("");
+                    btnPanic.setVisibility(View.VISIBLE);
                     FrgMap.Map.clear();
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     type = false;
@@ -489,8 +524,97 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
 
-                //Envia al activity de reportar
+                linearReporte.setVisibility(View.VISIBLE);
+                linearDatos.setVisibility(View.GONE);
+                linearEvento.setVisibility(View.GONE);
+            }
+        });
 
+        btnEnviarReporte.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View view) {
+
+                linearReporte.setVisibility(View.VISIBLE);
+
+                if ( editReporteEvento.getText().toString().trim().equalsIgnoreCase("")) {
+                    inputReporteEvento.setError("Reporte obligatorio");
+                    Alerter.create(getActivity())
+                            .setTitle("Revise la informacion solicitada.")
+                            .setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_warning))
+                            .setBackgroundColorRes(R.color.red)
+                            .setDuration(2000)
+                            .show();
+                }else{
+
+                    for(int i = 0; i < arrayEvent.size(); i++){
+                        if (arrayEvent.get(i).getCadena().equals(markerGlobal.getTitle())){
+                            if(arrayEvent.get(i).getEstado().equals("negativo")){
+                                Alerter.create(getActivity())
+                                        .setTitle("Este evento ya fue reportado previamente.")
+                                        .setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_warning))
+                                        .setBackgroundColorRes(R.color.red)
+                                        .setDuration(2000)
+                                        .show();
+                                break;
+                            }else{
+                                arrayEvent.get(i).setEstado("negativo");
+                                SQLiteDatabase db;
+                                db = getContext().openOrCreateDatabase(DataBaseDB.DB_NAME, Context.MODE_PRIVATE, null);
+
+                                if (db != null) {
+                                    ContentValues values = new ContentValues();
+                                    values.put(DataBaseDB.ESTADO, "negativo");
+                                    db.update(DataBaseDB.TB_EVENTO, values,
+                                            DataBaseDB.CADENA + "='" + arrayEvent.get(i).getCadena()  + "'", null);
+
+                                }
+                                db.close();
+
+                                new WsRecReporte(getActivity(), "Map").setReporte(preference.getStrData("id_user"),
+                                        arrayEvent.get(i).getId_user(),
+                                        arrayEvent.get(i).getCadena(),
+                                        editReporteEvento.getText().toString());
+                                break;
+                            }
+                        }
+                    }
+
+                    editReporteEvento.setText("");
+                    linearDatos.setVisibility(View.VISIBLE);
+                    linearReporte.setVisibility(View.GONE);
+                    linearEvento.setVisibility(View.GONE);
+                    viewVertical.setVisibility(View.GONE);
+                    viewHorizontal.setVisibility(View.GONE);
+                    cleanMap.setVisibility(View.GONE);
+                    marcarMap.setVisibility(View.GONE);
+
+                    FrgMap.Map.clear();
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    type = false;
+                    Utils.hideKeyboard(getActivity());
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                }
+
+
+                /*
+                linearReporte = view.findViewById(R.id.linearReporte);
+        inputReporteEvento = view.findViewById(R.id.inputReporteEvento);
+        editReporteEvento = view.findViewById(R.id.editReporteEvento);
+        btnEnviarReporte = view.findViewById(R.id.btnEnviarReporte);
+                 */
+
+            }
+        });
+
+        btnAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                linearReporte.setVisibility(View.GONE);
+                linearDatos.setVisibility(View.GONE);
+                linearEvento.setVisibility(View.VISIBLE);
             }
         });
 
@@ -555,6 +679,33 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
                     }
                 }, 250);
 
+            }
+        });
+
+        btnPanic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final CustomAlert alert = new CustomAlert(getActivity());
+
+                alert.setTypeWarning(
+                        "ATENCIÓN",
+                        "¿Desea activar el boton de panico?",
+                        "Cancelar",
+                        "Aceptar");
+                alert.getBtnLeft().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.close();
+                    }
+                });
+                alert.getBtnRight().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.close();
+                        new WsRecPanico(getActivity(), "master").setPanico(preference.getStrData("id_user"));
+                    }
+                });
+                alert.show();
             }
         });
     }
@@ -650,6 +801,7 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
     }
 
     public void getEventos(){
+        System.out.println("getEventos()");
         arrayEvent = new ArrayList<>();
         SQLiteDatabase db = null;
         Cursor c = null;
@@ -669,11 +821,11 @@ public class FrgMap extends Fragment  implements OnMapReadyCallback {
                             c.getString(5),
                             c.getString(6),
                             "",
-                            ""
+                            "",
+                            c.getString(7)
                     ));
-
+                    System.out.println("descripcion: " + c.getString(2));
                 } while (c.moveToNext());
-
             } else {
                 System.out.println("No existen registros!!!");
             }

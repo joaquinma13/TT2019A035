@@ -68,6 +68,7 @@ public class FrgContactos extends Fragment {
                 index = position;
                 txtNombreContact.setText(Utils.itemsContact.get(position).getNombre());
                 labelNumero.setText(Utils.itemsContact.get(position).getTelefono());
+                System.out.println("Estatus: " + Utils.itemsContact.get(position).getStatus());
                 if(Utils.itemsContact.get(position).getStatus().equals("nulo")){
                     labelEstatus.setText("Sin vinculo");
                     btnContact.setText("Mandar Solicitud");
@@ -191,5 +192,11 @@ public class FrgContactos extends Fragment {
             Utils.close(db);
             Utils.freeMemory();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        System.out.println("FrgContactos");
     }
 }

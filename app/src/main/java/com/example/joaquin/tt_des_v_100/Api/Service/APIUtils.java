@@ -60,9 +60,8 @@ public class APIUtils {
         final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
         OkHttpClient.Builder client = new OkHttpClient.Builder().addInterceptor(interceptor);
-        client.connectTimeout(490, TimeUnit.SECONDS);
-        client.readTimeout(490, TimeUnit.SECONDS);
-        client.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+        client.connectTimeout(5000, TimeUnit.SECONDS);
+        client.readTimeout(5000, TimeUnit.SECONDS);
         client.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {

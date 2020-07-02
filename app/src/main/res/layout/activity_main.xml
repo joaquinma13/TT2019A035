@@ -23,6 +23,8 @@
             app:layout_scrollFlags="scroll|enterAlways"
            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
 
+
+
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -30,6 +32,56 @@
             app:tabMode="fixed"
             app:tabGravity="fill"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="6dp">
+
+            <View
+                android:id="@+id/viewMap"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="3dp"
+                android:visibility="invisible"/>
+
+            <View
+                android:id="@+id/viewContac"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:visibility="invisible"/>
+
+            <View
+                android:id="@+id/viewZona"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:visibility="invisible"/>
+
+            <View
+                android:id="@+id/viewConf"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="6dp"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
     </android.support.design.widget.AppBarLayout>
 
 

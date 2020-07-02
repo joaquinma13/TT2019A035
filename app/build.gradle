@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -95,5 +96,6 @@ dependencies {
 
     //PintOverBitmap
     implementation 'ja.burhanrashid52:photoeditor:0.3.3'
+
 
 }

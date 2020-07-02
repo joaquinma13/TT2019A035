@@ -74,7 +74,6 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
     public static BottomSheetBehavior sheetBehavior;
     public static RelativeLayout bottom_sheet;
     private Button btnContinuar;
-    public static Spinner spUnidades;
     public static ArrayList<String> arrayUnidades;
 
     //Mapa
@@ -90,7 +89,6 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
     private TextInputLayout inputNombreZona;
     private TextInputEditText editNombreZona;
     private TextInputLayout inputRadio;
-    private TextInputEditText editRadio;
 
 
 
@@ -139,14 +137,11 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
 
         inputNombreZona = view.findViewById(R.id.inputNombreZona);
         editNombreZona = view.findViewById(R.id.editNombreZona);
-        inputRadio = view.findViewById(R.id.inputRadio);
-        editRadio = view.findViewById(R.id.editRadio);
 
         bottom_sheet = view.findViewById(R.id.bottom_sheet_map);
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
         btnGetZona = view.findViewById(R.id.btnGetZona);
         btnContinuar = view.findViewById(R.id.btnContinuar);
-        spUnidades = view.findViewById(R.id.spUnidades);
         clean = view.findViewById(R.id.clean);
         hiden = view.findViewById(R.id.hiden);
         marcar = view.findViewById(R.id.marcar);
@@ -160,7 +155,6 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
 
     private void initControls() {
         FrgZonas.MyAdapter myAdapter = new FrgZonas.MyAdapter(getActivity(), arrayUnidades);
-        spUnidades.setAdapter(myAdapter);
         recyclerZona.setHasFixedSize(true);
         recyclerZona.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -207,10 +201,6 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
                     inputNombreZona.setError("Nombre obligatorio");
                     flag = false;
                 }
-                if ( editRadio.getText().toString().trim().equalsIgnoreCase("")) {
-                    inputRadio.setError("Radio obligatoria");
-                    flag = false;
-                }
 
                 if (flag & mapFlag ){
 
@@ -221,10 +211,9 @@ public class FrgZonas extends Fragment implements OnMapReadyCallback {
                             editNombreZona.getText().toString(),
                             String.valueOf(coordCamera.latitude),
                             String.valueOf(coordCamera.longitude),
-                            editRadio.getText().toString());
+                            " ");
                     FrgZonas.Map.clear();
                     editNombreZona.setText("");
-                    editRadio.setText("");
                     //sheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
 

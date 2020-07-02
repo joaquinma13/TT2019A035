@@ -117,7 +117,7 @@ public class WsRecUser {
                                     alert.close();
                                     relCodigo.setVisibility(View.VISIBLE);
                                     scrollForm.setVisibility(View.GONE);
-                                    titleCodigo.setText("Para finalizar su registro busque en el buzon de su correo " + correo + " un mensaje enviado desde la direccion algo@gmail.com que contiene el codigo de confirmacion.");
+                                    titleCodigo.setText("Para finalizar su registro busque en el buzon de su correo " + correo + " un mensaje enviado desde la direccion trabajoterminal2019a035@gmail.com que contiene el codigo de confirmacion.");
 
 
                                 }
